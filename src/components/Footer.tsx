@@ -51,7 +51,7 @@ const Footer = () => {
 
           <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start md:items-end w-full">
             <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-widest leading-loose opacity-50 max-w-sm">
-              Giuliana Di Rocco — Crafting digital experiences that don't ask for permission. 
+              EMME DIGITAL — Crafting digital experiences that don't ask for permission. 
               Minimalism in form, maximalism in impact.
             </p>
             

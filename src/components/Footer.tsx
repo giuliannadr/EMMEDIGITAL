@@ -14,7 +14,7 @@ const Footer = () => {
           <span className="text-[9px] font-mono opacity-40 uppercase tracking-widest">Ituzaingó, AR // 34.66° S, 58.66° W</span>
         </div>
         <div className="text-right hidden md:block">
-          <span className="text-[9px] font-mono opacity-40 uppercase tracking-[0.3em]">Code by Antigravity_V1</span>
+          <span className="text-[9px] font-mono opacity-40 uppercase tracking-[0.3em]">Code by @giulianna.dev</span>
         </div>
       </div>
 

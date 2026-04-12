@@ -97,7 +97,7 @@ const Services = () => {
                     }}
                     className="overflow-hidden"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 pt-4 border-t border-white/5">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 pt-4 pr-20 pl-20 border-t border-white/5">
                       
                       {/* Descripción e Includes */}
                       <div className="md:col-span-5 flex flex-col gap-8">

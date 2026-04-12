@@ -24,15 +24,23 @@ const categories = ['Todo', 'Community', 'Producción', 'Web'];
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeTab, setActiveTab] = useState('Todo');
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = selectedProject ? 'hidden' : 'unset';
   }, [selectedProject]);
 
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [activeTab]);
+
   const filteredProjects = allProjects.filter(p => activeTab === 'Todo' ? true : p.category === activeTab);
+  
+  // Lógica: Solo mostramos 4 (una fila) si no está expandido
+  const visibleProjects = isExpanded ? filteredProjects : filteredProjects.slice(0, 4);
 
   const getGridCols = () => {
-    const count = filteredProjects.length;
+    const count = visibleProjects.length;
     return {
       base: 1,
       sm: Math.min(count, 2),
@@ -56,7 +64,7 @@ const Projects = () => {
 
       <div className="max-w-[1500px] mx-auto">
         
-        {/* Header Editorial */}
+        {/* Header con Línea Roja Editorial */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-20 gap-10 text-left">
           <div className="relative">
             <span className="text-[10px] font-mono tracking-[0.5em] text-[#FF0000] uppercase block mb-4 italic">Portfolio Archive</span>
@@ -65,68 +73,74 @@ const Projects = () => {
             </h2>
           </div>
           
-          <nav className="grid grid-cols-2 md:flex md:flex-col gap-x-4 gap-y-3 w-full md:w-auto border-t md:border-t-0 pt-6 md:pt-0">
+          {/* Navegación con línea roja completa */}
+          <nav className="flex flex-col border-l-2 border-[#FF0000] pl-6 py-2 gap-y-5 w-full md:w-auto">
             {categories.map((cat, index) => (
               <button 
                 key={cat} 
                 onClick={() => setActiveTab(cat)} 
-                className="relative group text-left md:text-right border-b md:border-b-0 border-black/5 pb-2 md:pb-0"
+                className="relative group text-left"
               >
-                <div className="flex items-center md:justify-end gap-2">
-                  <span className={`text-[7px] font-mono transition-colors ${activeTab === cat ? 'text-[#FF0000]' : 'text-black/30'}`}>0{index}</span>
-                  <span className={`text-[11px] font-mono uppercase tracking-[0.15em] transition-all ${activeTab === cat ? 'text-black font-bold' : 'text-black/40 group-hover:text-black'}`}>
+                <div className="flex items-center gap-3">
+                  <span className={`text-[9px] font-mono transition-colors ${activeTab === cat ? 'text-[#FF0000]' : 'text-black/20'}`}>
+                    0{index}
+                  </span>
+                  <span className={`text-[13px] md:text-[15px] font-mono uppercase tracking-[0.25em] transition-all duration-300 ${
+                    activeTab === cat ? 'text-black font-bold' : 'text-black/40 group-hover:text-black'
+                  }`}>
                     {cat}
                   </span>
-                  <AnimatePresence>
-                    {activeTab === cat && (
-                      <motion.div 
-                        layoutId="activeBullet" 
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0 }}
-                        className="w-2 h-2 bg-[#FF0000] ml-2" 
-                      />
-                    )}
-                  </AnimatePresence>
                 </div>
               </button>
             ))}
           </nav>
         </div>
 
-        {/* Grid de Proyectos con el fix de scroll */}
-        <div className="flex justify-start overflow-hidden min-h-[500px]"> 
+        {/* Grid de Proyectos */}
+        <div className="flex flex-col items-center"> 
           <motion.div 
             layout 
-            className="bg-black p-4 grid dynamic-grid gap-4 w-fit max-w-full h-fit"
+            className="bg-black p-4 grid dynamic-grid gap-4 w-full h-fit"
             style={{ gridTemplateColumns: `repeat(${cols.base}, minmax(0, 1fr))` }}
           >
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project) => (
+              {visibleProjects.map((project) => (
                 <motion.div 
                   key={project.id}
                   layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
                   onClick={() => setSelectedProject(project)}
-                  className="relative group overflow-hidden cursor-pointer bg-[#0A0A0A] w-full sm:w-[320px] md:w-[300px]"
+                  className="relative group overflow-hidden cursor-pointer bg-[#0A0A0A] w-full"
                 >
-                  <div className={`relative w-full h-full ${project.aspect} overflow-hidden`}>
+                  <div className="relative w-full h-56 md:h-64 overflow-hidden">
                     <img src={project.img} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100" alt="" />
                     <div className="absolute inset-0 bg-[#FF0000]/0 group-hover:bg-[#FF0000]/90 transition-all duration-500 mix-blend-multiply z-10" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 text-center px-4">
-                      <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter italic">{project.title}</h3>
+                      <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter italic">{project.title}</h3>
                     </div>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </motion.div>
+
+          {/* Botón Ver Más Re-incorporado */}
+          {filteredProjects.length > 4 && (
+            <button 
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="mt-12 group flex flex-col items-center gap-2"
+            >
+              <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-black/40 group-hover:text-black transition-colors">
+                {isExpanded ? "[ Contraer archivo ]" : "[ Ver archivo completo ]"}
+              </span>
+            </button>
+          )}
         </div>
 
-        {/* Modal */}
+        {/* Modal (Sin cambios) */}
         <AnimatePresence>
           {selectedProject && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">

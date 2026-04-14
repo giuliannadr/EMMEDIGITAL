@@ -8,7 +8,7 @@ const Word = ({ children, progress, range, isItalic }: { children: React.ReactNo
   return (
     <motion.span 
       style={{ opacity, y }} 
-      className={`mr-3 mb-2 md:mb-6 inline-block z-10 relative ${isItalic ? 'font-serif italic font-light lowercase tracking-normal text-[#FF0000]' : ''}`}
+      className={`mr-3 mb-2 md:mb-6 inline-block z-10 relative ${isItalic ? 'font-accent font-normal lowercase tracking-normal text-[#FF0000] text-[1.1em] px-2' : ''}`}
     >
       {children}
     </motion.span>
@@ -80,7 +80,7 @@ const BrandPresentation = () => {
           <p className="text-[10px] font-mono tracking-[0.5em] font-bold uppercase opacity-60">
             About the Agency
           </p>
-          <p className="font-serif italic text-sm md:text-base opacity-70 max-w-[350px] leading-tight">
+          <p className=" italic text-sm md:text-base opacity-70 max-w-[350px] leading-tight">
             La estética no pide permiso; se impone. Así es como reescribimos tu historia.
           </p>
         </div>
@@ -123,7 +123,7 @@ const BrandPresentation = () => {
             </p>
           </div>
           <div className="flex flex-col items-center md:items-start col-span-1 lg:col-span-2 md:items-end">
-             <span className="text-[10px] font-mono uppercase tracking-widest block mb-4 opacity-40">Since</span>
+             <span className="text-[10px] font-mono uppercase tracking-widest block  opacity-40">Since</span>
              <p className="font-serif italic text-3xl">2026</p>
           </div>
         </div>

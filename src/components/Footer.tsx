@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
           {/* Nombre de fondo */}
           <div className="absolute -bottom-4 -right-4 z-20">
-            <span className="text-4xl md:text-5xl font-black text-[#FF0000] opacity-30 italic leading-none">EMME.</span>
+            <span className="text-4xl md:text-5xl font-black text-[#FF0000] opacity-30 italic leading-none font-serif">EMME.</span>
           </div>
         </div>
 
@@ -83,7 +83,7 @@ const Footer = () => {
           <span className="absolute inset-0 bg-[#FF0000] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]"></span>
           <div className="relative z-10 flex items-center justify-center gap-4">
             <span className="text-[10px] font-mono tracking-[0.3em] uppercase opacity-70 group-hover:opacity-100">Talk to me</span>
-            <span className="text-lg font-black italic">WHATSAPP_↗</span>
+            <span className="text-lg font-black italic font-serif">WHATSAPP_↗</span>
           </div>
         </a>
 

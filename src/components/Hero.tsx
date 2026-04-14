@@ -3,10 +3,6 @@ import { motion } from 'framer-motion';
 const Hero = () => {
   return (
     <section id="home" className="relative w-full h-screen flex flex-col md:flex-row bg-[#050505] overflow-hidden">
-      {/* Importamos la fuente cursiva real */}
-      <style>
-        {`@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');`}
-      </style>
       
       {/* 1. BACKGROUND EDITORIAL */}
       <div className="absolute inset-0 z-0">
@@ -53,11 +49,10 @@ const Hero = () => {
               x="2" 
               y="2" 
               fill="#F5F5F5"
-              filter="url(#chalkTexturizer)"
+              className="font-accent"
               style={{ 
-                fontFamily: "'Cedarville Cursive', cursive",
-                fontSize: "18px", // Tamaño reducido
-                letterSpacing: "0.05em"
+                fontSize: "24px", 
+                letterSpacing: "0"
               }}
             >
               digital
@@ -79,9 +74,10 @@ const Hero = () => {
               y="5" 
               fill="#F5F5F5" 
               filter="url(#chalkTexturizer)"
+              className="font-accent"
               style={{ 
-                fontFamily: "'Cedarville Cursive', cursive",
-                fontSize: "22px" // Tamaño reducido para Mobile
+                fontSize: "28px",
+                letterSpacing: "0"
               }}
             >
               digital

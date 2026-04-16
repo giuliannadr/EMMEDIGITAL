@@ -25,7 +25,6 @@ const Hero = () => {
       >
         <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
           <defs>
-            {/* FILTRO DE TIZA REAL */}
             <filter id="chalkTexturizer" x="-20%" y="-20%" width="140%" height="140%">
               <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="4" result="noise" />
               <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
@@ -120,7 +119,7 @@ const Hero = () => {
         </svg>
 
         <div className="absolute right-12 lg:right-20 bottom-24 md:bottom-32 text-white font-sans text-xs xl:text-sm font-bold tracking-[0.2em] uppercase leading-relaxed max-w-[180px] text-right hidden md:block">
-          LA AGENCIA BOUTIQUE<br/>QUE DEFINE EL ESTÁNDAR
+        SOMOS EL IMPULSO <br /> QUE TU MARCA NECESITA
         </div>
       </motion.div>
 

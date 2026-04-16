@@ -44,7 +44,7 @@ const Footer = () => {
         <div className="col-span-1 md:col-span-8 flex flex-col justify-center items-start md:pl-8">
           <a href="mailto:hola@emmedigital.com" className="group relative mb-8">
             <h2 className="text-[12vw] md:text-[9vw] leading-[0.8] font-black tracking-tighter text-white transition-all duration-700 group-hover:text-[#FF0000] uppercase">
-              START THE<br/>PROJECT_
+             LLEVEMOS TU MARCA <br /> AL SIGUIENTE NIVEL_
             </h2>
             <div className="absolute -bottom-2 left-0 w-0 h-[4px] bg-[#FF0000] transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:w-full"></div>
           </a>

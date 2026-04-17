@@ -156,7 +156,7 @@ const Hero = () => {
 
       {/* 5. OVERLAY DE COORDENADAS */}
       <div className="absolute top-1/2 -translate-y-1/2 left-8 hidden lg:block text-white/20 font-mono text-[9px] uppercase tracking-[0.6em] [writing-mode:vertical-rl] rotate-180">
-        Ituzaingó, AR // 34.6655° S, 58.6658° W
+       Zona Oeste, Buenos Aires.
       </div>
     </section>
   );

@@ -47,15 +47,24 @@ const App = () => {
       <div className="bg-[#050505] text-[#FAFAFA] min-h-screen font-sans selection:bg-[#FF0000] selection:text-white">
         
         {/* SEO Technical Setup */}
-        <Helmet>
-          <title>EMME DIGITAL | Branding & Web Design con Criterio Humano</title>
-          <meta name="description" content="Agencia boutique de diseño web y branding. Creamos experiencias digitales cálidas, humanas y de alto impacto." />
-          <meta property="og:title" content="EMME DIGITAL | Branding & Web Design" />
-          <meta property="og:description" content="Estética con intención para marcas que buscan impacto real." />
-          <meta property="og:type" content="website" />
-          {/* Aquí podés agregar el link a una imagen de preview si la tenés */}
-          <meta property="og:image" content="/og-image.jpg" /> 
-        </Helmet>
+<Helmet>
+  {/* El título pone el Marketing Digital primero, que es el motor de ella */}
+  <title>EMME DIGITAL | Marketing Digital, Contenido Visual & Web Dev</title>
+  
+  {/* Una descripción clara y profesional, sin rodeos */}
+  <meta name="description" content="Estrategias de Marketing Digital, gestión de Social Media, producción de fotos y videos profesionales y desarrollo web de alto impacto." />
+  
+  {/* Keywords enfocadas en lo que realmente hacen */}
+  <meta name="keywords" content="Marketing Digital, Social Media, Producción de fotos, Producción de videos, Diseño Web, React, Emme Digital" />
+
+  {/* Open Graph para que al compartir el link se entienda rápido qué hacen */}
+  <meta property="og:title" content="EMME DIGITAL | Marketing Digital & Estrategia" />
+  <meta property="og:description" content="Potenciamos marcas a través de contenido visual, redes sociales y desarrollo web profesional." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.jpg" /> 
+  
+  <link rel="canonical" href="https://emmedigital.ar" />
+</Helmet>
 
         <CustomCursor />
         <Navbar />

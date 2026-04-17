@@ -36,9 +36,7 @@ const Navbar = () => {
         className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${!isTop || isOpen ? 'bg-black/20 backdrop-blur-lg border-b border-white/10' : 'bg-transparent'}`}
       >
         <div className="w-full px-6 py-6 flex justify-between items-center text-white text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase">
-          <div className="flex-1 flex justify-start">
-            <a href="#brand" className="hover:opacity-70 transition-opacity hidden md:block">NOSOTROS</a>
-          </div>
+          
           
           {/* Hamburger Icon */}
           <div 
@@ -61,10 +59,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="flex-1 flex justify-end gap-6">
-            <a href="#projects" className="hidden md:block hover:opacity-70 transition-opacity">PROYECTOS</a>
-            <a href="#contact" className="hover:opacity-70 transition-opacity">CONTACTO</a>
-          </div>
+          
         </div>
       </motion.nav>
 

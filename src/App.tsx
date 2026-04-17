@@ -6,6 +6,7 @@ import BrandPresentation from './components/BrandPresentation';
 import Services from './components/Services';
 import Projects from './components/Projects';
 import Footer from './components/Footer';
+import { CustomCursor } from './components/CustomCursor';
 
 const App = () => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const App = () => {
 
   return (
     <div className="bg-[#050505] text-[#FAFAFA] min-h-screen font-sans selection:bg-[#FF0000] selection:text-white">
+    <CustomCursor />
       <Navbar />
       <Hero />
       <BrandPresentation />

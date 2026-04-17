@@ -101,7 +101,7 @@ const BrandPresentation = () => {
           
           {/* Columna Servicios */}
           <div className="flex flex-col items-center md:items-start col-span-1 md:col-span-2 lg:col-span-1">
-            <span className="text-[10px] font-mono uppercase tracking-widest block mb-6 opacity-40">Capabilities</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest block mb-6 opacity-40">Servicios</span>
             <ul className="flex flex-col gap-4">
               {[
                 "Estrategia, planificación y contenido",
@@ -131,7 +131,7 @@ const BrandPresentation = () => {
 
           {/* Columna Since */}
           <div className="flex flex-col items-center md:items-end col-span-1">
-             <span className="text-[10px] font-mono uppercase tracking-widest block mb-4 opacity-40">Since</span>
+             <span className="text-[10px] font-mono uppercase tracking-widest block mb-4 opacity-40">Desde</span>
              <div className="relative">
                <p className="font-serif italic text-4xl leading-none">2026</p>
                <div className="h-[2px] w-8 bg-[#FF0000] mt-2 ml-auto" />

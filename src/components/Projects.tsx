@@ -86,7 +86,7 @@ const allProjects: Project[] = [
     brandLogo: '/FreePort/freeport3.webp',
     category: 'Social Media',
     description: 'Freeport Eventos es un espacio donde la estética y la ambientación son protagonistas. Su comunicación se enfoca en los montajes y detalles que construyen la experiencia, mostrando el lugar en uso con una identidad visual de iluminación cuidada y encuadres amplios.\n\nEl objetivo: posicionar la marca como una opción exclusiva y versátil, destacando la versatilidad del espacio y la calidad del resultado final en cada evento.',
-    img: '/FreePort/freeportport.PNG',
+    img: '/FreePort/freeportport.webp',
     aspect: 'aspect-[3/4]',
     gallery: ['/FreePort/free2.webp', '/FreePort/free5.webp', '/FreePort/free7.webp', '/FreePort/free1.webp'],
     banner: '/FreePort/free8.webp',
@@ -101,7 +101,7 @@ const allProjects: Project[] = [
     brandLogo: '/Padel/padel3.webp',
     category: 'Social Media',
     description: 'The Padel Castelar es un espacio enfocado en el entrenamiento y la comunidad. Su comunicación integra contenido dinámico en cancha con una identidad de colores intensos y tipografías marcadas que transmiten pura energía y acción.\n\nEl objetivo: posicionar una marca activa y accesible para todos los niveles, priorizando la mejora del juego y la conversión en cada pieza.',
-    img: '/Padel/padelport.PNG',
+    img: '/Padel/padelport.webp',
     aspect: 'aspect-[3/4]',
     gallery: ['/Padel/padel2.webp', '/Padel/padel4.webp', '/Padel/padel3.webp', '/Padel/padel6.webp'],
     banner: '/Padel/padel5.webp',
@@ -146,7 +146,7 @@ const allProjects: Project[] = [
     brandLogo: '/Estancia/estancia4.webp',
     category: 'Social Media',
     description: 'Estancia Gaona es un restaurante donde el producto y el ambiente son protagonistas. Su comunicación combina procesos de cocina y momentos reales para transmitir una identidad auténtica, apoyada en una estética de tonos cálidos y texturas rústicas.\n\nEl objetivo: posicionar la marca como un punto de encuentro referente en Zona Oeste, destacando la tradición de la parrilla y la calidez de una experiencia cercana.',
-    img: '/Estancia/estanciaport.PNG',
+    img: '/Estancia/estanciaport.webp',
     aspect: 'aspect-[3/4]',
     gallery: ['/Estancia/estancia4.webp', '/Estancia/estancia5.webp', '/Estancia/estancia6.webp', '/Estancia/estancia7.webp'],
     banner: '/Estancia/estancia10.webp',
@@ -161,8 +161,14 @@ const categories = ['Todo', 'Social Media', 'Contenido Visual', 'Web'];
 const prefetchImages = (urls: string[]) => {
   if (typeof window === 'undefined') return;
   urls.forEach(url => {
-    const img = new Image();
-    img.src = url;
+    // Use <link rel=preload> for maximum browser priority
+    const existing = document.querySelector(`link[href="${url}"]`);
+    if (existing) return;
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = url;
+    document.head.appendChild(link);
   });
 };
 
@@ -195,6 +201,7 @@ const ProjectCard = memo(({ project, onClick, index }: { project: Project; onCli
         alt={project.brandName} 
         loading={loading}
         fetchPriority={fetchPriority}
+        decoding="async"
       />
       <div className="absolute bottom-4 left-4 z-10 flex flex-col items-start gap-2 pointer-events-none transition-transform duration-500 group-hover:scale-110 origin-bottom-left">
         <h3 className="text-xl font-black text-[#FF0000] uppercase italic leading-none tracking-tighter">
@@ -228,11 +235,19 @@ const ProjectGrid = memo(({ projects, onProjectSelect }: { projects: Project[]; 
 
 ProjectGrid.displayName = 'ProjectGrid';
 
+// Transition config reusable
+const POPUP_TRANSITION = { type: 'spring', stiffness: 380, damping: 36, mass: 0.8 } as const;
+
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeTab, setActiveTab] = useState('Todo');
   const [isExpanded, setIsExpanded] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
+
+  // Preload first 4 card images immediately on mount
+  useEffect(() => {
+    prefetchImages(allProjects.slice(0, 4).map(p => p.img));
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = selectedProject ? 'hidden' : 'unset';
@@ -322,14 +337,15 @@ const Projects = () => {
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-4">
               <motion.div 
                 initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                exit={{ opacity: 0 }} 
+                animate={{ opacity: 1, transition: { duration: 0.18 } }} 
+                exit={{ opacity: 0, transition: { duration: 0.2 } }} 
                 onClick={closePopup} 
-                className="absolute inset-0 bg-black/95 backdrop-blur-sm md:backdrop-blur-xl transition-all" 
+                className="absolute inset-0 bg-black/90 backdrop-blur-sm md:backdrop-blur-lg" 
               />
 
               <motion.div 
                 layoutId={`card-${selectedProject.id}`}
+                transition={POPUP_TRANSITION}
                 className="relative w-full max-w-[1400px] bg-white overflow-y-auto md:overflow-hidden h-[90vh] md:h-[95vh] shadow-2xl rounded-sm z-[110] will-change-transform"
               >
                 <button 
@@ -343,7 +359,7 @@ const Projects = () => {
 
                 <AnimatePresence mode="wait">
                   {!showGallery ? (
-                    <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col-reverse md:flex-row h-auto md:h-full w-full overflow-hidden">
+                    <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.15 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }} className="flex flex-col-reverse md:flex-row h-auto md:h-full w-full overflow-hidden">
                       <div className="w-full md:w-[40%] p-8 md:p-16 flex flex-col justify-between bg-white shrink-0 h-auto md:h-full border-r border-black/5">
                         <div className="flex flex-col h-full">
                           <div className="flex items-center gap-5 mb-12">
@@ -397,7 +413,7 @@ const Projects = () => {
                         
                         <div className="relative z-10 w-full max-w-[850px] bg-white p-2 md:p-3 shadow-[0_40px_80px_rgba(0,0,0,0.3)] rounded-[2rem] md:rounded-[2.5rem]">
                           <div className="w-full h-20 md:h-36 rounded-t-[1.4rem] md:rounded-t-[1.8rem] mb-2 md:mb-3 relative overflow-hidden shadow-inner">
-                            <img src={selectedProject.banner} className="w-full h-full object-cover" alt="banner" />
+                            <img src={selectedProject.banner} className="w-full h-full object-cover" alt="banner" fetchPriority="high" decoding="async" />
                             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent flex items-center justify-between px-6 md:px-8">
                               <div className="flex flex-col">
                                 <span className="text-white/50 text-[7px] md:text-[9px] font-mono uppercase tracking-[0.4em]">Case Study</span>
@@ -412,10 +428,10 @@ const Projects = () => {
                             {selectedProject.gallery.length === 2 && (
                               <>
                                 <div className="col-span-6 h-[210px] md:h-[350px] rounded-xl md:rounded-b-[1.8rem] overflow-hidden">
-                                  <img src={selectedProject.gallery[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                                 <div className="col-span-6 h-[210px] md:h-[350px] rounded-xl md:rounded-b-[1.8rem] overflow-hidden">
-                                  <img src={selectedProject.gallery[1]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[1]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                               </>
                             )}
@@ -423,13 +439,13 @@ const Projects = () => {
                             {selectedProject.gallery.length === 3 && (
                               <>
                                 <div className="col-span-6 h-[210px] md:h-[240px] rounded-xl overflow-hidden">
-                                  <img src={selectedProject.gallery[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                                 <div className="col-span-6 h-[210px] md:h-[240px] rounded-xl overflow-hidden">
-                                  <img src={selectedProject.gallery[1]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[1]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                                 <div className="col-span-12 h-[210px] md:h-[280px] rounded-xl md:rounded-[1.8rem] overflow-hidden">
-                                  <img src={selectedProject.gallery[2]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[2]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                               </>
                             )}
@@ -437,16 +453,16 @@ const Projects = () => {
                             {selectedProject.gallery.length >= 4 && (
                               <>
                                 <div className="col-span-7 h-[210px] md:h-[240px] rounded-xl overflow-hidden">
-                                  <img src={selectedProject.gallery[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                                 <div className="col-span-5 h-[210px] md:h-[240px] rounded-xl overflow-hidden">
-                                  <img src={selectedProject.gallery[1]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[1]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                                 <div className="col-span-5 h-[210px] md:h-[240px] rounded-xl md:rounded-[1.8rem] overflow-hidden">
-                                  <img src={selectedProject.gallery[2]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[2]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                                 <div className="col-span-7 h-[210px] md:h-[240px] rounded-xl md:rounded-[1.8rem] overflow-hidden">
-                                  <img src={selectedProject.gallery[3]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" style={{ imageRendering: 'auto' }} />
+                                  <img src={selectedProject.gallery[3]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 will-change-transform" alt="" fetchPriority="high" decoding="async" />
                                 </div>
                               </>
                             )}
@@ -459,8 +475,8 @@ const Projects = () => {
                     <motion.div 
                       key="gallery" 
                       initial={{ opacity: 0 }} 
-                      animate={{ opacity: 1 }} 
-                      exit={{ opacity: 0 }} 
+                      animate={{ opacity: 1, transition: { duration: 0.15 } }} 
+                      exit={{ opacity: 0, transition: { duration: 0.1 } }} 
                       className="relative w-full h-full bg-white flex flex-col overflow-hidden rounded-sm md:p-8 lg:p-14"
                     >
                       <div className="flex justify-between items-center p-8 pb-4 md:p-0 md:absolute md:top-8 md:left-8 md:right-8 lg:top-14 lg:left-14 lg:right-14 shrink-0 bg-white md:bg-transparent z-50">
@@ -502,7 +518,7 @@ const Projects = () => {
                             <div className="absolute inset-0 bg-[#080808] rounded-[2.8rem] md:rounded-[3rem] shadow-[0_10px_30px_rgba(0,0,0,0.1)] border-[3px] border-[#1f1f22] overflow-hidden transition-all duration-300 ease-in-out hover:scale-105">
                               <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-[30%] h-4 bg-black rounded-full z-30" />
                               <div className="absolute inset-[2.5px] rounded-[2.5rem] md:rounded-[2.7rem] bg-black overflow-hidden z-20">
-                                <img src={src} className="w-full h-full object-contain" alt="interface" loading="lazy" />
+                                <img src={src} className="w-full h-full object-cover" alt="interface" loading="eager" fetchPriority="high" decoding="async" />
                               </div>
                               <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none z-25" />
                               <div className="absolute inset-0 border border-white/5 rounded-[2.8rem] md:rounded-[3rem] pointer-events-none z-30" />

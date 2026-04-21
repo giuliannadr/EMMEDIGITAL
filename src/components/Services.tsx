@@ -133,13 +133,30 @@ const Services = () => {
 
               <AnimatePresence>
                 {active === service.id && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
-                  >
+                 <motion.div 
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ 
+        height: 'auto', 
+        opacity: 1, 
+        transition: { 
+          // Apertura: cubic-bezier(.22, 1, .36, 1) -> "Ease Out Quint" modificado
+          // Empieza rápido para dar respuesta táctil, pero frena MUY suavemente al final.
+          height: { duration: 0.9, ease: [0.22, 1, 0.36, 1] }, 
+          opacity: { duration: 0.5, delay: 0.15 } // El texto aparece suavemente después
+        } 
+      }}
+      exit={{ 
+        height: 0, 
+        opacity: 0, 
+        transition: { 
+          // Cierre: cubic-bezier(.65, 0, .35, 1) -> "Ease In Out" modificado
+          // Es "pesado" al principio y acelera un poco al final, evitando el frenazo brusco.
+          height: { duration: 0.8, ease: [0.65, 0, 0.35, 1] }, 
+          opacity: { duration: 0.3 } // El texto desaparece rápido
+        } 
+      }}
+      className="overflow-hidden" // CRUCIAL para que el efecto de 'height' funcione
+    >
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 pb-10 md:pb-12 pt-4 md:pt-6 pr-2 md:pr-20 md:pl-20 border-t border-white/5 relative z-10">
                       
                       <div className="md:col-span-4 flex flex-col gap-8 md:gap-10">

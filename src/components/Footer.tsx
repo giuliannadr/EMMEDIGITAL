@@ -38,7 +38,7 @@ const Footer = () => {
         <div className="col-span-1 md:col-span-4 relative group w-full mx-auto md:mx-0">
           <div className="aspect-[3/4.5] md:aspect-[3/4] overflow-hidden bg-[#111] grayscale group-hover:grayscale-0 transition-all duration-1000 border border-white/10 relative">
             <img 
-              src="/big3.webp" 
+              src="/BIG/big3.webp" 
               alt="Emme Digital" 
               className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
             />

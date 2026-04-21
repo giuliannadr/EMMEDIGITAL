@@ -58,7 +58,7 @@ export const CustomCursor = () => {
       {/* Cursor principal con mix-blend-mode difference */}
       <motion.div
         ref={cursorRef}
-        className="fixed top-0 left-0 rounded-full pointer-events-none hidden md:flex items-center justify-center"
+        className="fixed top-0 left-0 rounded-full pointer-events-none hidden md:flex items-center justify-center will-change-[transform,width,height]"
         style={{
           x,
           y,
@@ -88,7 +88,7 @@ export const CustomCursor = () => {
 
       {/* Punto secundario que sigue con más delay (efecto trailing) */}
       <motion.div
-        className="fixed top-0 left-0 w-1 h-1 rounded-full pointer-events-none hidden md:block"
+        className="fixed top-0 left-0 w-1 h-1 rounded-full pointer-events-none hidden md:block will-change-transform"
         style={{
           x: mouseX,
           y: mouseY,

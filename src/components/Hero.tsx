@@ -8,6 +8,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img 
           src="/EMME-HERO.jpeg" 
+          rel="preload"
           alt="Emme Digital Editorial"
           className="w-full h-full object-cover opacity-90 mix-blend-screen"
           style={{ filter: 'contrast(1.1) brightness(0.9)' }}

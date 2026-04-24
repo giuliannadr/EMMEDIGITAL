@@ -56,8 +56,8 @@ const Navbar = () => {
           hidden: { y: '-100%' }
         }}
         animate={hidden && !isOpen ? 'hidden' : 'visible'}
-        transition={{ duration: 0.35, ease: 'easeInOut' }}
-        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${!isTop || isOpen ? 'bg-black/20 backdrop-blur-lg border-b border-white/10' : 'bg-transparent'}`}
+        transition={{ duration: 0.25, ease: 'easeInOut' }}
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-200 will-change-transform ${!isTop || isOpen ? 'bg-black/20 backdrop-blur-lg border-b border-white/10' : 'bg-transparent'}`}
       >
         <div className="w-full px-6 py-6 flex justify-between items-center text-white text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase">
           <div 
@@ -91,10 +91,11 @@ const Navbar = () => {
             className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-[90%] md:w-[600px] h-[70vh] bg-white/5 border border-white/20 rounded-[2rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center gap-8"
+              initial={{ scale: 0.96, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.96, opacity: 0, y: 10 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-[90%] md:w-[600px] h-[70vh] bg-white/5 border border-white/20 rounded-[2rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center gap-8 will-change-transform"
             >
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 

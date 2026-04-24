@@ -58,7 +58,7 @@ const BrandPresentation = () => {
       <div className="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col items-center">
         
         {/* Header Editorial */}
-        <div className="flex flex-col items-center gap-6 mb-16 text-center w-full max-w-[800px]">
+        <div className="flex flex-col items-center gap-8 mb-16 text-center w-full max-w-[800px]">
           <motion.div 
             style={{ width: useTransform(scrollYProgress, [0, 0.2], [0, 60]) }}
             className="h-[1px] bg-[#FF0000]"
@@ -120,9 +120,9 @@ const BrandPresentation = () => {
 
           {/* Columna Ubicación */}
           <div className="flex flex-col items-center md:items-start hidden md:flex">
-            <span className="text-[10px] font-mono uppercase tracking-widest block mb-6 opacity-40">Studio</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest block mb-6 opacity-40"></span>
             <p className="text-[11px] font-bold leading-relaxed uppercase tracking-wider">
-              Buenos Aires / <br /> Zona Oeste
+            
             </p>
           </div>
 
@@ -133,8 +133,8 @@ const BrandPresentation = () => {
           <div className="flex flex-col items-center md:items-end col-span-1">
              <span className="text-[10px] font-mono uppercase tracking-widest block mb-4 opacity-40">Desde</span>
              <div className="relative">
-               <p className="font-serif italic text-4xl leading-none">2026</p>
-               <div className="h-[2px] w-8 bg-[#FF0000] mt-2 ml-auto" />
+               <p className="font-serif italic text-4xl leading-none text-[#FF0000]">2026</p>
+               <div className="h-[2px] w-8 bg-black mt-2 ml-auto" />
              </div>
           </div>
 

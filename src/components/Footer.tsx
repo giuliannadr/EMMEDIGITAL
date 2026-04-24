@@ -21,7 +21,7 @@ const Footer = () => {
             // Digital Statement 2026
           </span>
           <span className="text-[9px] font-mono opacity-40 uppercase tracking-widest">
-            Zona Oeste, Buenos Aires.
+            Buenos Aires, Argentina.
           </span>
         </div>
         <div className="text-right hidden md:block">
@@ -38,24 +38,24 @@ const Footer = () => {
         <div className="col-span-1 md:col-span-4 relative group w-full mx-auto md:mx-0">
           <div className="aspect-[3/4.5] md:aspect-[3/4] overflow-hidden bg-[#111] grayscale group-hover:grayscale-0 transition-all duration-1000 border border-white/10 relative">
             <img 
-              src="/BIG/big3.webp" 
+              src="/footer.webp" 
               alt="Emme Digital" 
               className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
             />
           </div>
           {/* Nombre de marca en el fondo */}
-          <div className="absolute -bottom-4 -right-4 z-20 pointer-events-none">
-            <span className="text-4xl md:text-5xl font-black text-[#FF0000] opacity-30 italic leading-none font-serif">
-              EMME.
-            </span>
-          </div>
+         <div className="absolute -bottom-4 -right-4 z-20 pointer-events-none">
+  <span className="text-8xl md:text-8xl font-black text-[#FF0000] opacity-30 leading-none font-accent">
+    Emme.
+  </span>
+</div>
         </div>
 
         {/* Lado Derecho: CTA y Acción */}
         <div className="col-span-1 md:col-span-8 flex flex-col justify-center items-start md:pl-8">
           <div className="group relative mb-12">
             <h2 className="text-[9vw] md:text-[5.5vw] leading-[0.95] font-black tracking-tighter text-white uppercase italic">
-              LLEVEMOS TU MARCA <br className="hidden md:block" /> AL SIGUIENTE NIVEL_
+              LLEVEMOS TU MARCA <br className="hidden md:block" /> AL SIGUIENTE NIVEL.
             </h2>
           </div>
 
@@ -71,7 +71,7 @@ const Footer = () => {
               rel="noreferrer"
               className="group relative flex items-center gap-6 px-10 py-5 border-2 border-white hover:border-[#FF0000] hover:bg-[#FF0000] transition-all duration-500 ease-in-out text-center"
             >
-              <span className="text-xl md:text-2xl font-black italic font-serif tracking-tight uppercase">
+              <span className="text-xl md:text-2xl font-black italic font-sans tracking-tight uppercase">
                 WHATSAPP_↗
               </span>
             </a>

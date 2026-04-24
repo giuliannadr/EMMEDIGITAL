@@ -12,8 +12,8 @@ export const CustomCursor = () => {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth spring following
-  const springConfig = { stiffness: 400, damping: 30, mass: 0.5 };
+  // Smooth spring following - Optimized for 144Hz+ monitors
+  const springConfig = { stiffness: 650, damping: 35, mass: 0.4 };
   const x = useSpring(mouseX, springConfig);
   const y = useSpring(mouseY, springConfig);
 

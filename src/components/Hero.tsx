@@ -17,12 +17,12 @@ const Hero = () => {
         <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")'}}></div>
       </div>
 
-      {/* 2. SUPERIOR: "EM" + "digital" (LADO IZQUIERDO) */}
+      {/* 2. SUPERIOR: "EM" + "digital" */}
       <motion.div 
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center"
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center will-change-transform"
       >
         <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
           <defs>
@@ -32,34 +32,22 @@ const Hero = () => {
             </filter>
           </defs>
 
-          {/* DESKTOP */}
           <svg x="5%" y="36%" width="90%" height="40%" viewBox="0 0 198 100" preserveAspectRatio="xMidYMid meet" className="hidden md:block overflow-visible">
-            {/* Letras EM Rojas */}
             <path d="M 0,0 H 70 V 16 H 16 V 42 H 60 V 58 H 16 V 84 H 70 V 100 H 0 Z" fill="#FF0000" />
             <g>
               <path d="M 82,100 V 0 H 98 L 138,45 L 178,0 H 194 V 5 L 176,25 V 25 L 138,65 L 98,25 V 100 H 82 Z" fill="#FF0000" />
               <path d="M 182,45 L 198,27.3 V 100 H 182 V 45 Z" fill="#FF0000" />
             </g>
-
-            {/* Texto "digital" - AHORA MÁS CHIQUITO */}
             <motion.text 
               initial={{ opacity: 0, x: -5 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.6, duration: 1 }}
-              x="2" 
-              y="2" 
-              fill="#F5F5F5"
-              className="font-accent"
-              style={{ 
-                fontSize: "24px", 
-                letterSpacing: "0"
-              }}
+              x="2" y="2" fill="#F5F5F5" className="font-accent" style={{ fontSize: "24px" }}
             >
               digital
             </motion.text>
           </svg>
 
-          {/* MOBILE */}
           <svg x="5%" y="41%" width="90%" height="50%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="block md:hidden overflow-visible">
             <path d="M 0,0 H 70 V 16 H 16 V 42 H 60 V 58 H 16 V 84 H 70 V 100 H 0 Z" fill="#FF0000" />
             <g>
@@ -70,15 +58,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -5 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.6, duration: 1 }}
-              x="2" 
-              y="5" 
-              fill="#F5F5F5" 
-              filter="url(#chalkTexturizer)"
-              className="font-accent"
-              style={{ 
-                fontSize: "28px",
-                letterSpacing: "0"
-              }}
+              x="2" y="5" fill="#F5F5F5" filter="url(#chalkTexturizer)" className="font-accent" style={{ fontSize: "28px" }}
             >
               digital
             </motion.text>
@@ -86,14 +66,14 @@ const Hero = () => {
         </svg>
       </motion.div>
 
-      {/* 3. INFERIOR: "ME" CALADO (LADO DERECHO) */}
+      {/* 3. INFERIOR: "ME" CALADO + FRASE ANCLADA */}
       <motion.div 
         initial={{ y: "-100%" }}
         animate={{ y: 0 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center"
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center will-change-transform"
       >
-        <svg className="absolute inset-0 w-full h-full pointer-events-none hidden md:block">
+        <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
           <defs>
             <mask id="me-mask-desktop">
               <rect width="100%" height="100%" fill="white" />
@@ -102,12 +82,6 @@ const Hero = () => {
                 <path d="M 124,0 H 194 V 100 H 124 V 84 H 178 V 58 H 134 V 42 H 178 V 16 H 124 Z" fill="black" />
               </svg>
             </mask>
-          </defs>
-          <rect width="100%" height="100%" fill="#FF0000" mask="url(#me-mask-desktop)" />
-        </svg>
-
-        <svg className="absolute inset-0 w-full h-full pointer-events-none block md:hidden">
-          <defs>
             <mask id="me-mask-mobile">
               <rect width="100%" height="100%" fill="white" />
               <svg x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet">
@@ -116,34 +90,48 @@ const Hero = () => {
               </svg>
             </mask>
           </defs>
-          <rect width="100%" height="100%" fill="#FF0000" mask="url(#me-mask-mobile)" />
-        </svg>
+          
+          <rect width="100%" height="100%" fill="#FF0000" mask="url(#me-mask-desktop)" className="hidden md:block" />
+          <rect width="100%" height="100%" fill="#FF0000" mask="url(#me-mask-mobile)" className="block md:hidden" />
 
-        <div className="absolute right-12 lg:right-20 bottom-24 md:bottom-32 text-white font-sans text-xs xl:text-sm font-bold tracking-[0.2em] uppercase leading-relaxed max-w-[180px] text-right hidden md:block">
-        SOMOS EL IMPULSO <br /> QUE TU MARCA NECESITA
-        </div>
+          {/* TEXTO DESKTOP: Metido en el viewBox de la ME para que se mueva con ella */}
+          <svg x="5%" y="36%" width="90%" height="40%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="hidden md:block overflow-visible">
+            <text x="194" y="130" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '5px', letterSpacing: '0.2em' }}>
+              <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
+              <tspan x="194" dy="7">QUE TU MARCA NECESITA</tspan>
+            </text>
+          </svg>
+
+          {/* TEXTO MOBILE: Posicionado más abajo para librar el cuadro */}
+          <svg x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="block md:hidden overflow-visible">
+            <text x="194" y="160" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '8px', letterSpacing: '0.2em' }}>
+              <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
+              <tspan x="194" dy="12">QUE TU MARCA NECESITA</tspan>
+            </text>
+          </svg>
+        </svg>
       </motion.div>
 
-      {/* 4. BLOQUE GLOSSMORPHISM CENTRADO */}
+      {/* 4. BLOQUE GLOSSMORPHISM */}
       <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-16 z-50">
         <div className="relative group">
           <div className="absolute -inset-4 bg-[#FF0000]/15 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
           <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 min-w-[280px] md:min-w-[400px] flex flex-col items-center text-center">
-             <div className="flex justify-between items-start mb-8 w-full">
-               <span className="text-[9px] font-mono text-white/40 uppercase tracking-[0.3em]">Boutique Ref. 04</span>
-               <div className="w-2.5 h-2.5 bg-[#FF0000] animate-pulse rounded-full"></div>
-             </div>
+            <div className="flex justify-between items-start mb-8 w-full">
+              <div className="w-2.5 h-2.5 bg-[#FF0000] animate-pulse rounded-full"></div>
+            </div>
             <p className="text-white font-sans text-xl md:text-3xl font-medium leading-tight tracking-tight mb-10 max-w-sm">
               “DEFINIMOS EL 
               <span className="relative inline-block mx-2 px-3 py-1">
-                <span className="absolute inset-0 bg-white -rotate-1 scale-110"></span>
-                <span className="relative italic font-serif text-[#FF0000]">NUEVO</span>
-              </span> 
-              ESTÁNDAR VISUAL.”
+                <span className="absolute inset-0 bg-white -rotate-2 scale-y-75 scale-x-95"></span>
+                <span className="relative italic font-sans text-[#FF0000] font-light">NUEVO</span>
+              </span>
+              ESTÁNDAR VISUAL”
             </p>
             <motion.button 
-              whileHover={{ backgroundColor: "rgba(255, 255, 255, 1)", color: "#000" }}
+              whileHover={{ backgroundColor: "white", color: "#000" }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               className="group flex items-center gap-4 px-10 py-5 text-[10px] md:text-xs font-black uppercase tracking-[0.4em] transition-all duration-300 bg-white text-[#050505] md:bg-transparent md:text-white md:border md:border-white/40"
             >
               Start Project 
@@ -153,11 +141,6 @@ const Hero = () => {
             </motion.button>
           </div>
         </div>
-      </div>
-
-      {/* 5. OVERLAY DE COORDENADAS */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-8 hidden lg:block text-white/20 font-mono text-[9px] uppercase tracking-[0.6em] [writing-mode:vertical-rl] rotate-180">
-       Zona Oeste, Buenos Aires.
       </div>
     </section>
   );

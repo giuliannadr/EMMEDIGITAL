@@ -29,7 +29,7 @@ const services: Service[] = [
     num: '01',
     title: 'GESTIÓN DE REDES SOCIALES',
     description: 'Convertimos tu presencia en redes en una herramienta real de crecimiento.',
-    includes: ['Estrategia Mensual', 'Gestión IG & TikTok', 'Creación y edición de contenido', 'Redacción de copies', 'Análisis de métricas y estadísticas'],
+    includes: ['Estrategia Mensual', 'Gestión de Instagram, Facebook y TikTok', 'Creación y edición de contenido', 'Redacción de copies', 'Análisis de métricas y estadísticas'],
     process: [
       { name: 'ANALIZAMOS', icon: Search, description: 'Analizamos tu negocio, tu público y lo que necesitás comunicar.' },
       { name: 'PLANIFICAMOS', icon: Compass, description: 'Transformamos ideas en un plan de contenido claro y bien definido.' },
@@ -87,7 +87,7 @@ const Services = () => {
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-[#FF0000] rounded-full"></div>
-              <span className="text-[8px] md:text-[9px] font-mono tracking-[0.3em] md:tracking-[0.4em] uppercase opacity-50">Expertise</span>
+              <span className="text-[8px] md:text-[9px] font-mono tracking-[0.3em] md:tracking-[0.4em] uppercase opacity-50">Services</span>
             </div>
             <h2 className="text-4xl md:text-7xl font-sans font-black leading-[0.85] tracking-tighter uppercase">
               <span className="font-accent font-normal lowercase text-[#FF0000] tracking-normal text-[1.1em] inline-block origin-left italic">
@@ -97,7 +97,7 @@ const Services = () => {
               Servicios
             </h2>
           </div>
-          <p className="italic text-xs md:text-base opacity-40 max-w-[220px] md:max-w-[260px] leading-tight text-left">
+          <p className="italic text-xs md:text-base max-w-[220px] md:max-w-[260px] leading-tight text-left text-[#FF0000]">
             Soluciones visuales para marcas que entienden el diseño como ventaja competitiva.
           </p>
         </div>
@@ -139,20 +139,16 @@ const Services = () => {
         height: 'auto', 
         opacity: 1, 
         transition: { 
-          // Apertura: cubic-bezier(.22, 1, .36, 1) -> "Ease Out Quint" modificado
-          // Empieza rápido para dar respuesta táctil, pero frena MUY suavemente al final.
-          height: { duration: 0.9, ease: [0.22, 1, 0.36, 1] }, 
-          opacity: { duration: 0.5, delay: 0.15 } // El texto aparece suavemente después
+          height: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }, 
+          opacity: { duration: 0.5, delay: 0.15 } 
         } 
       }}
       exit={{ 
         height: 0, 
         opacity: 0, 
         transition: { 
-          // Cierre: cubic-bezier(.65, 0, .35, 1) -> "Ease In Out" modificado
-          // Es "pesado" al principio y acelera un poco al final, evitando el frenazo brusco.
           height: { duration: 0.8, ease: [0.65, 0, 0.35, 1] }, 
-          opacity: { duration: 0.3 } // El texto desaparece rápido
+          opacity: { duration: 0.3 } 
         } 
       }}
       className="overflow-hidden" // CRUCIAL para que el efecto de 'height' funcione
@@ -211,9 +207,9 @@ const Services = () => {
                                 transition={{ delay: i * 0.1 }}
                                 className="group/step flex items-start gap-4 md:gap-6 py-5 md:py-6 border-b border-white/[0.03] last:border-none relative"
                               >
-                                <span className="font-accent text-5xl md:text-8xl text-white/[0.03] absolute -left-2 md:-left-4 group-hover/step:text-[#FF0000]/10 transition-all duration-700 select-none italic leading-none z-0">
-                                  0{i + 1}
-                                </span>
+                              <span className="font-accent text-5xl md:text-8xl text-[#FF0000]/15 absolute -left-2 md:-left-4 select-none italic leading-none z-0 transition-all duration-700">
+  0{i + 1}
+</span>
 
                                 <div className="flex flex-col w-full relative z-10 pl-8 md:pl-10">
                                   <div className="flex items-start gap-4 md:gap-6">

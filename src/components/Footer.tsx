@@ -15,7 +15,13 @@ const Footer = () => {
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")'}}></div>
 
       {/* 1. SECCIÓN SUPERIOR: Header del Footer */}
-      <div className="relative z-10 flex justify-between items-start border-b border-white/10 pb-6">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 flex justify-between items-start border-b border-white/10 pb-6"
+      >
         <div className="flex flex-col gap-1">
           <span className="text-[10px] font-mono tracking-[0.5em] text-[#FF0000] uppercase italic font-bold">
             // Digital Statement 2026
@@ -29,10 +35,16 @@ const Footer = () => {
             Code by @giulianna.dev
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* 2. SECCIÓN CENTRAL: Contenido Principal */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center flex-grow py-8">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center flex-grow py-8"
+      >
         
         {/* Lado Izquierdo: Visual (Foto de Autor) */}
         <div className="col-span-1 md:col-span-4 relative group w-full mx-auto md:mx-0">
@@ -44,11 +56,11 @@ const Footer = () => {
             />
           </div>
           {/* Nombre de marca en el fondo */}
-         <div className="absolute -bottom-4 -right-4 z-20 pointer-events-none">
-  <span className="text-8xl md:text-8xl font-black text-[#FF0000] opacity-30 leading-none font-accent">
-    Emme.
-  </span>
-</div>
+          <div className="absolute -bottom-4 -right-4 z-20 pointer-events-none">
+            <span className="text-8xl md:text-8xl font-black text-[#FF0000] opacity-30 leading-none font-accent">
+              Emme.
+            </span>
+          </div>
         </div>
 
         {/* Lado Derecho: CTA y Acción */}
@@ -98,10 +110,16 @@ const Footer = () => {
             </a>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* 3. SECCIÓN INFERIOR: Legal */}
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-center border-t border-white/10 pt-8 gap-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="relative z-10 flex flex-col md:flex-row justify-between items-center border-t border-white/10 pt-8 gap-4"
+      >
         <div className="flex gap-8 text-[9px] font-mono opacity-40 uppercase tracking-[0.2em]">
           <span>© 2026 EMME DIGITAL</span>
           <span className="hidden md:inline">BASED IN ARGENTINA</span>
@@ -109,7 +127,7 @@ const Footer = () => {
         <div className="text-[9px] font-mono opacity-20 uppercase tracking-[0.2em]">
           All rights reserved_
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 };

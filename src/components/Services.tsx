@@ -83,7 +83,13 @@ const Services = () => {
     <section id="services" className="py-16 md:py-32 bg-[#050505] text-[#F5F5F5] px-5 md:px-16 overflow-hidden font-sans">
       <div className="max-w-[1400px] mx-auto w-full">
         
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-4 md:gap-6 border-b border-white/10 pb-8 md:pb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-4 md:gap-6 border-b border-white/10 pb-8 md:pb-10"
+        >
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-[#FF0000] rounded-full"></div>
@@ -100,12 +106,16 @@ const Services = () => {
           <p className="italic text-xs md:text-base max-w-[220px] md:max-w-[260px] leading-tight text-left text-[#FF0000]">
             Soluciones visuales para marcas que entienden el diseño como ventaja competitiva.
           </p>
-        </div>
+        </motion.div>
 
         <div className="flex flex-col border-t border-white/10">
           {services.map((service) => (
-            <div 
+            <motion.div 
               key={service.id} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-5%" }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="border-b border-white/10"
               onMouseEnter={() => { if (window.innerWidth > 768) setActive(service.id) }}
               onMouseLeave={() => { if (window.innerWidth > 768) setActive(null) }}
@@ -238,7 +248,7 @@ const Services = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

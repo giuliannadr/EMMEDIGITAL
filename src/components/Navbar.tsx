@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
@@ -18,6 +18,25 @@ const Navbar = () => {
     }
     setIsTop(latest < 50);
   });
+
+  // Bloquear scroll cuando el menú está abierto
+  useEffect(() => {
+    const html = document.documentElement;
+    if (isOpen) {
+      html.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      window.dispatchEvent(new Event('lenis-stop'));
+    } else {
+      html.style.overflow = '';
+      document.body.style.overflow = '';
+      window.dispatchEvent(new Event('lenis-start'));
+    }
+    return () => {
+      html.style.overflow = '';
+      document.body.style.overflow = '';
+      window.dispatchEvent(new Event('lenis-start'));
+    };
+  }, [isOpen]);
 
   // Función mágica para scroll suave y URL limpia
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

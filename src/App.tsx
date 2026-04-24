@@ -30,6 +30,13 @@ const App = () => {
       smoothWheel: true,
     });
 
+    // Listeners para pausar/reanudar scroll desde otros componentes
+    const stopScroll = () => lenis.stop();
+    const startScroll = () => lenis.start();
+
+    window.addEventListener('lenis-stop', stopScroll);
+    window.addEventListener('lenis-start', startScroll);
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -38,6 +45,8 @@ const App = () => {
     requestAnimationFrame(raf);
 
     return () => {
+      window.removeEventListener('lenis-stop', stopScroll);
+      window.removeEventListener('lenis-start', startScroll);
       lenis.destroy();
     };
   }, []);

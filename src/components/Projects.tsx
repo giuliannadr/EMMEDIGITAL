@@ -384,7 +384,13 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
       <div className="max-w-[1500px] mx-auto">
         
         {/* --- HEADER --- */}
-        <div className="flex flex-col md:flex-row justify-between items-start mb-20 gap-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-15%" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row justify-between items-start mb-20 gap-10"
+        >
           <div>
             <span className="text-[10px] font-mono tracking-[0.5em] text-[#FF0000] uppercase block mb-4 italic">Portfolio Archive</span>
             <h2 className="text-[14vw] md:text-[110px] font-black leading-[0.9] tracking-tighter uppercase">
@@ -400,7 +406,7 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
               </button>
             ))}
           </nav>
-        </div>
+        </motion.div>
 
         {/* --- GRID PRINCIPAL --- */}
         <div className="flex flex-col items-center">

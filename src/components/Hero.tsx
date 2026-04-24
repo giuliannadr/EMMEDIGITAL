@@ -103,12 +103,12 @@ const Hero = () => {
           </svg>
 
           {/* TEXTO MOBILE: Posicionado más abajo para librar el cuadro */}
-          <svg x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="block md:hidden overflow-visible">
-            <text x="194" y="160" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '8px', letterSpacing: '0.2em' }}>
-              <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
-              <tspan x="194" dy="12">QUE TU MARCA NECESITA</tspan>
-            </text>
-          </svg>
+         <svg x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="block md:hidden overflow-visible">
+  <text x="194" y="120" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '8px', letterSpacing: '0.2em' }}>
+    <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
+    <tspan x="194" dy="12">QUE TU MARCA NECESITA</tspan>
+  </text>
+</svg>
         </svg>
       </motion.div>
 

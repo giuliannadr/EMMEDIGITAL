@@ -30,11 +30,7 @@ const Footer = () => {
             Buenos Aires, Argentina.
           </span>
         </div>
-        <div className="text-right hidden md:block">
-          <span className="text-[9px] font-mono opacity-40 uppercase tracking-[0.3em]">
-            Code by @giulianna.dev
-          </span>
-        </div>
+      
       </motion.div>
 
       {/* 2. SECCIÓN CENTRAL: Contenido Principal */}
@@ -57,18 +53,19 @@ const Footer = () => {
           </div>
           {/* Nombre de marca en el fondo */}
           <div className="absolute -bottom-4 -right-4 z-20 pointer-events-none">
-            <span className="text-8xl md:text-8xl font-black text-[#FF0000] opacity-30 leading-none font-accent">
-              Emme.
+            <span className="text-8xl font-light md:text-8xl font-black text-[#FF0000] opacity-30 leading-none font-accent">
+              emme.
             </span>
           </div>
         </div>
 
         {/* Lado Derecho: CTA y Acción */}
         <div className="col-span-1 md:col-span-8 flex flex-col justify-center items-start md:pl-8">
-          <div className="group relative mb-12">
-            <h2 className="text-[9vw] md:text-[5.5vw] leading-[0.95] font-black tracking-tighter text-white uppercase italic">
+          <div className="group relative mb-12 cursor-pointer">
+            <h2 className="text-[9vw] md:text-[5.5vw] leading-[0.95] font-black tracking-tighter text-white uppercase italic transition-colors group-hover:text-[#FF0000]">
               LLEVEMOS TU MARCA <br className="hidden md:block" /> AL SIGUIENTE NIVEL.
             </h2>
+            <div className="absolute -bottom-2 left-0 w-full h-1 md:h-2 bg-[#FF0000] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-[0.16,1,0.3,1]" />
           </div>
 
           {/* CONTENEDOR WHATSAPP: Frase arriba + Botón */}
@@ -120,12 +117,19 @@ const Footer = () => {
         transition={{ duration: 1, delay: 0.5 }}
         className="relative z-10 flex flex-col md:flex-row justify-between items-center border-t border-white/10 pt-8 gap-4"
       >
+
         <div className="flex gap-8 text-[9px] font-mono opacity-40 uppercase tracking-[0.2em]">
           <span>© 2026 EMME DIGITAL</span>
           <span className="hidden md:inline">BASED IN ARGENTINA</span>
         </div>
+        
         <div className="text-[9px] font-mono opacity-20 uppercase tracking-[0.2em]">
-          All rights reserved_
+          <span className="text-right hidden md:block">
+          <span className="text-[10px] font-mono opacity-100 uppercase tracking-[0.3em]">
+            Code by @giulianna.dev
+          </span>
+          </span>
+          
         </div>
       </motion.div>
     </footer>

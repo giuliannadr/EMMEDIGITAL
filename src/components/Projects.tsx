@@ -93,10 +93,10 @@ const allProjects: Project[] = [
     brandLogo: '/BIG/big3.webp',
     category: 'Contenido Visual', 
     description: 'Prendas de abrigo con presencia marcan el tono de una propuesta pensada para invierno. Siluetas claras, volúmenes definidos y una paleta neutra acompañan una estética limpia, donde cada prenda toma protagonismo.', 
-    img: '/BIG/big10.webp', 
+    img: '/BIG/big3.webp', 
     aspect: 'aspect-[3/4]',
-    gallery: ['/BIG/big10.webp', '/BIG/big11.webp', '/BIG/big4.webp', '/BIG/big8.webp'],
-    banner: '/BIG/big3.webp',
+    gallery: ['/BIG/big1.webp', '/BIG/big2.webp', '/BIG/big3.webp', '/BIG/big4.webp'],
+    banner: '/BIG/big-banner.webp',
     color: '#bcaa95' ,
     mockup: [],
   },
@@ -129,8 +129,8 @@ const allProjects: Project[] = [
     description: 'La producción se apoya en la ciudad como escenario. El styling define la imagen: botas protagonistas, siluetas definidas y una paleta cálida que refuerza el tono de la propuesta.\n\nEl resultado es una serie con impronta urbana, donde actitud y estilo se combinan de forma directa.',
     img: '/Yosef/yosef5.webp',
     aspect: 'aspect-[3/4]',
-    gallery: ['/Yosef/yosef9.webp', '/Yosef/yosef8.webp', '/Yosef/yosef3.webp', '/Yosef/yosef11.webp'],
-    banner: '/Yosef/yosef10.webp',
+    gallery: ['/Yosef/yosef1.webp', '/Yosef/yosef2.webp', '/Yosef/yosef3.webp', '/Yosef/yosef4.webp'],
+    banner: '/Yosef/yosef-banner.webp',
     color: '#5c3b2e',
     mockup: [],
   },{ 
@@ -173,10 +173,10 @@ const allProjects: Project[] = [
     brandLogo: '/Roxana/roxana4.webp',
     category: 'Contenido Visual',
     description: 'La producción se apoya en una estética limpia y luminosa. La dirección prioriza la expresión y el movimiento, generando imágenes equilibradas donde la naturalidad y la simplicidad definen el resultado final.',
-    img: '/Roxana/roxana2.webp',
+    img: '/Roxana/roxana-portada.webp',
     aspect: 'aspect-[3/4]',
-    gallery: ['/Roxana/roxana4.webp', '/Roxana/roxana9.webp'],
-    banner: '/Roxana/roxana1.webp',
+    gallery: ['/Roxana/roxana1.webp', '/Roxana/roxana2.webp', '/Roxana/roxana3.webp', '/Roxana/roxana4.webp'],
+    banner: '/Roxana/roxana-banner.webp',
     color: '#8e302e',
     mockup: [],
   },
@@ -222,25 +222,25 @@ const allProjects: Project[] = [
 
 const categories = ['Todo', 'Social Media', 'Contenido Visual', 'Web'];
 
-const prefetchImages = (urls: string[]) => {
+const prefetchImages = (urls: (string | undefined)[], priority = false) => {
   if (typeof window === 'undefined') return;
   urls.forEach(url => {
-    // Skip preloading videos as they are too heavy (100MB+) and would block the connection
-    if (url.match(/\.(mp4|webm)$/i)) return;
+    if (!url || url.match(/\.(mp4|webm)$/i)) return;
     
-    const existing = document.querySelector(`link[href="${url}"]`);
-    if (existing) return;
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = url;
-    document.head.appendChild(link);
+    // Usamos el objeto Image para pre-cargar de forma más ligera y eficiente
+    const img = new Image();
+    if (priority) {
+      // @ts-ignore - fetchPriority es soportado en navegadores modernos
+      img.fetchPriority = 'high';
+    }
+    img.src = url;
   });
 };
 
-const ProjectCard = memo(({ project, onClick, index }: { project: Project; onClick: () => void; index: number }) => {
+const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project: Project; onClick: () => void; index: number; isCarouselItem?: boolean }) => {
   const handleMouseEnter = useCallback(() => {
-    prefetchImages([...project.gallery, project.banner, ...project.mockup]);
+    // Prefetch con prioridad alta al hover porque es muy probable que haga click
+    prefetchImages([...project.gallery, project.banner, ...project.mockup], true);
   }, [project]);
 
   const fetchPriority = index < 4 ? "high" : "auto";
@@ -248,20 +248,26 @@ const ProjectCard = memo(({ project, onClick, index }: { project: Project; onCli
 
   return (
     <motion.div 
-      layoutId={`card-${project.id}`}
+      layoutId={isCarouselItem ? undefined : `card-${project.id}`}
       initial={{ opacity: 0 }} 
       animate={{ opacity: 1 }} 
       exit={{ opacity: 0 }}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
-      // AGREGADO: rounded-xl e isolate aquí. Quitamos bg-[#0A0A0A] si no es necesario.
-      className="relative group overflow-hidden cursor-pointer rounded-xl isolate aspect-[4/3] will-change-transform"
+      className="relative group overflow-hidden cursor-pointer rounded-xl isolate aspect-[4/3] will-change-transform border border-black/5"
     >
       <motion.img 
-        layoutId={`img-${project.id}`}
+        layoutId={isCarouselItem ? undefined : `img-${project.id}`}
         src={project.img} 
-        // CAMBIO: Se eliminó rounded-xl de la imagen porque ahora lo hereda del padre (gracias al overflow-hidden)
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform" 
+        className="
+          w-full h-full object-cover 
+          /* Efecto Blanco y Negro a Color */
+          grayscale group-hover:grayscale-0 
+          /* Transiciones combinadas */
+          transition-all duration-700 ease-in-out 
+          group-hover:scale-105 
+          will-change-transform
+        " 
         style={{ imageRendering: 'auto' }} 
         alt={project.brandName} 
         loading={loading}
@@ -278,49 +284,105 @@ const ProjectCard = memo(({ project, onClick, index }: { project: Project; onCli
           {project.category}
         </span>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+      
+      {/* Gradiente de fondo para legibilidad */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
     </motion.div>
   );
 }, (prev, next) => prev.project.id === next.project.id);
 
 ProjectCard.displayName = 'ProjectCard';
 
-const ProjectGrid = memo(({ projects, onProjectSelect }: { projects: Project[]; onProjectSelect: (p: Project) => void }) => {
+const ProjectCarousel = memo(({ projects, onProjectSelect }: { projects: Project[]; onProjectSelect: (p: Project) => void }) => {
+  // Duplicamos los items para que el loop sea infinito y fluido
+  const displayProjects = useMemo(() => {
+    if (projects.length === 0) return [];
+    // Repetimos lo suficiente para asegurar un scroll continuo sin saltos
+    return [...projects, ...projects, ...projects];
+  }, [projects]);
+
+  if (projects.length === 0) return null;
+
+  const scrollDuration = projects.length * 5; // Segundos por ciclo completo de la lista original
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {projects.map((project, index) => (
-        <ProjectCard 
-          key={project.id} 
-          project={project} 
-          index={index}
-          onClick={() => onProjectSelect(project)} 
-        />
-      ))}
+    <div className="pause-on-hover relative overflow-hidden w-full py-4">
+      <div 
+        className="flex gap-4 w-max animate-marquee"
+        style={{ 
+          animationDuration: `${scrollDuration}s`,
+        }}
+      >
+        {displayProjects.map((project, index) => (
+          <div 
+            key={`${project.id}-${index}`} 
+            className="w-[75vw] sm:w-[40vw] lg:w-[calc(25vw-2rem)] flex-shrink-0"
+          >
+            <ProjectCard 
+              project={project} 
+              index={index}
+              isCarouselItem={true}
+              onClick={() => onProjectSelect(project)} 
+            />
+          </div>
+        ))}
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.333333%); }
+        }
+        .animate-marquee {
+          animation: marquee var(--marquee-duration, 30s) linear infinite;
+          animation-play-state: running;
+        }
+        .pause-on-hover:hover .animate-marquee {
+          animation-play-state: paused;
+        }
+      `}} />
     </div>
   );
 });
 
-ProjectGrid.displayName = 'ProjectGrid';
+ProjectCarousel.displayName = 'ProjectCarousel';
 
 const POPUP_TRANSITION = { type: 'spring', stiffness: 380, damping: 36, mass: 0.8 } as const;
-
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeTab, setActiveTab] = useState('Todo');
-  const [isExpanded, setIsExpanded] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   
   // Estados para Video
   const [mutedStates, setMutedStates] = useState<{[key: number]: boolean}>({ 0: true, 1: true });
   const [expandedMedia, setExpandedMedia] = useState<string | null>(null);
 
   useEffect(() => {
-    prefetchImages(allProjects.slice(0, 4).map(p => p.img));
+    // Pre-cargar TODAS las portadas de los proyectos al inicio para que el grid sea instantáneo
+    prefetchImages(allProjects.map(p => p.img), true);
+    
+    // Pre-cargar banners de los primeros 6 proyectos (los más probables de ver)
+    prefetchImages(allProjects.slice(0, 6).map(p => p.banner));
+    
+    // Pre-cargar logos
+    prefetchImages(allProjects.filter(p => p.brandLogo).map(p => p.brandLogo));
   }, []);
 
+  // Pre-cargar galería completa con prioridad ultra alta cuando se selecciona un proyecto
   useEffect(() => {
-    document.body.style.overflow = selectedProject ? 'hidden' : 'unset';
+    if (selectedProject) {
+      prefetchImages([
+        selectedProject.banner,
+        ...selectedProject.gallery,
+        ...selectedProject.mockup
+      ], true);
+    }
   }, [selectedProject]);
+
+  useEffect(() => {
+    document.body.style.overflow = (selectedProject || expandedMedia || lightboxIndex !== null) ? 'hidden' : 'unset';
+  }, [selectedProject, expandedMedia, lightboxIndex]);
 
   // Silenciar videos de fondo cuando se expande uno a pantalla completa
   useEffect(() => {
@@ -335,14 +397,31 @@ const Projects = () => {
     }
   }, [expandedMedia]);
 
+  // Navegación del lightbox
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+  const lightboxNext = useCallback(() => {
+    if (!selectedProject || lightboxIndex === null || lightboxIndex === -1) return;
+    setLightboxIndex((lightboxIndex + 1) % selectedProject.gallery.length);
+  }, [lightboxIndex, selectedProject]);
+  const lightboxPrev = useCallback(() => {
+    if (!selectedProject || lightboxIndex === null || lightboxIndex === -1) return;
+    setLightboxIndex((lightboxIndex - 1 + selectedProject.gallery.length) % selectedProject.gallery.length);
+  }, [lightboxIndex, selectedProject]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') lightboxNext();
+      if (e.key === 'ArrowLeft') lightboxPrev();
+      if (e.key === 'Escape') closeLightbox();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [lightboxIndex, lightboxNext, lightboxPrev, closeLightbox]);
+
   const filteredProjects = useMemo(() => 
     allProjects.filter(p => activeTab === 'Todo' ? true : p.category === activeTab),
     [activeTab]
-  );
-
-  const visibleProjects = useMemo(() => 
-    isExpanded ? filteredProjects : filteredProjects.slice(0, 4),
-    [isExpanded, filteredProjects]
   );
 
   const closePopup = useCallback(() => {
@@ -353,6 +432,8 @@ const Projects = () => {
 
   const handleProjectSelect = useCallback((project: Project) => {
     setSelectedProject(project);
+    setShowGallery(false);
+    setLightboxIndex(null);
   }, []);
 
 const toggleMute = (index: number, e: React.MouseEvent) => {
@@ -398,9 +479,9 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
               <span className="font-accent font-normal lowercase text-[#FF0000] tracking-normal text-[1.1em] inline-block italic leading-none">RESULTADOS REALES.</span>
             </h2>
           </div>
-          <nav className="flex flex-col border-l-2 border-[#FF0000] pl-6 py-2 gap-y-5">
+          <nav className="flex flex-row md:flex-col flex-wrap md:flex-nowrap border-b-2 md:border-b-0 md:border-l-2 border-[#FF0000] pb-4 md:pb-0 md:pl-6 py-2 gap-x-6 gap-y-4 md:gap-y-5 w-full md:w-auto">
             {categories.map((cat, index) => (
-              <button key={cat} onClick={() => setActiveTab(cat)} className="group text-left flex items-center gap-3 outline-none">
+              <button key={cat} onClick={() => setActiveTab(cat)} className="group text-left flex items-center gap-2 md:gap-3 outline-none">
                 <span className={`text-[9px] font-mono ${activeTab === cat ? 'text-[#FF0000]' : 'text-black/20'}`}>0{index}</span>
                 <span className={`text-[13px] md:text-[15px] font-mono uppercase tracking-[0.25em] transition-all ${activeTab === cat ? 'text-black font-bold' : 'text-black/40 group-hover:text-black'}`}>{cat}</span>
               </button>
@@ -408,13 +489,14 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
           </nav>
         </motion.div>
 
-        {/* --- GRID PRINCIPAL --- */}
-        <div className="flex flex-col items-center">
-          <div className="bg-black rounded-2xl p-4 w-full h-fit">
-            <AnimatePresence mode="popLayout">
-              {visibleProjects.length > 0 ? (
-                <ProjectGrid 
-                  projects={visibleProjects} 
+        {/* --- CARROUSEL PRINCIPAL --- */}
+        <div className="flex flex-col items-center w-full">
+          <div className="border-2 md:border-4 border-black rounded-3xl p-4 md:p-6 w-full overflow-hidden bg-white/50 backdrop-blur-sm shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+            <AnimatePresence mode="wait">
+              {filteredProjects.length > 0 ? (
+                <ProjectCarousel 
+                  key={activeTab} // Reset carousel when tab changes for smooth animation restart
+                  projects={filteredProjects} 
                   onProjectSelect={handleProjectSelect} 
                 />
               ) : (
@@ -427,21 +509,13 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
                   <span className="text-[10px] font-mono tracking-[0.5em] text-[#FF0000] uppercase mb-2 italic">
                     Aviso de Archivo
                   </span>
-                  <h3 className="text-white/40 text-[12px] md:text-[14px] font-mono uppercase tracking-[0.3em] text-center">
+                  <h3 className="text-black/40 text-[12px] md:text-[14px] font-mono uppercase tracking-[0.3em] text-center">
                     Aun no tenemos proyectos de este servicio
                   </h3>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
-
-          {filteredProjects.length > 4 && (
-            <button onClick={() => setIsExpanded(!isExpanded)} className="mt-12 group flex flex-col items-center gap-2 outline-none">
-              <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-[#FF0000]/40 group-hover:text-black transition-colors">
-                {isExpanded ? "[ Contraer archivo ]" : "[ Ver archivo completo ]"}
-              </span>
-            </button>
-          )}
         </div>
 
         {/* --- POPUP MODAL --- */}
@@ -498,6 +572,9 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
             className="h-full w-auto object-contain transition-all duration-500 hover:scale-105"
             alt="brand"
             style={{ maxWidth: '180px', display: 'block' }}
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
           />
         </div>
         <div className="flex flex-col">
@@ -558,8 +635,11 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
       {/* Card Blanca de Galería */}
       <div className="relative z-10 w-full max-w-[850px] bg-white p-2 md:p-3 shadow-[0_40px_80px_rgba(0,0,0,0.3)] rounded-[2rem] md:rounded-[2.5rem]">
         {/* Banner Superior */}
-        <div className="w-full h-20 md:h-36 rounded-4xl mb-2 md:mb-3 relative overflow-hidden shadow-inner">
-          <img src={selectedProject.banner} className="w-full h-full object-cover" alt="banner" fetchPriority="high" />
+        <div 
+          onClick={() => setLightboxIndex(-1)}
+          className="w-full h-20 md:h-36 rounded-2xl md:rounded-4xl mb-2 md:mb-3 relative overflow-hidden shadow-inner cursor-zoom-in group/banner"
+        >
+          <img src={selectedProject.banner} className="w-full h-full object-cover group-hover/banner:scale-105 transition-transform duration-700" alt="banner" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent flex items-center px-6 md:px-8">
             <div className="flex flex-col">
               <span className="text-white/50 text-[7px] md:text-[9px] font-mono uppercase tracking-[0.4em]">{selectedProject.category}</span>
@@ -581,12 +661,17 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
             }
             
             return (
-              <div key={idx} className={`${colSpan} h-[210px] md:h-[240px] rounded-4xl  overflow-hidden`}>
+              <div
+                key={idx}
+                onClick={() => setLightboxIndex(idx)}
+                className={`${colSpan} h-[210px] md:h-[240px] md:rounded-4xl rounded-2xl overflow-hidden cursor-zoom-in group/gimg`}
+              >
                 <img 
                   src={img} 
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000" 
+                  className="w-full h-full object-cover group-hover/gimg:scale-105 transition-transform duration-700" 
                   alt="" 
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
             );
@@ -708,10 +793,13 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[300] bg-black flex items-center justify-center p-4"
+              className="fixed inset-0 z-[500] bg-black flex items-center justify-center p-4"
               onClick={() => setExpandedMedia(null)}
             >
-             <button className="absolute top-6 right-6 md:top-10 md:right-10 text-white z-50 p-2">
+              <button 
+                onClick={() => setExpandedMedia(null)}
+                className="absolute top-6 right-6 md:top-10 md:right-10 text-white z-50 p-2 hover:scale-110 transition-transform outline-none"
+              >
   <svg 
     viewBox="0 0 24 24" 
     fill="none" 
@@ -723,7 +811,10 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
   </svg>
 </button>
               
-              <div className="relative h-[85vh] aspect-[9/19] rounded-[3rem] overflow-hidden border-[6px] border-[#1f1f22]">
+              <div 
+                onClick={(e) => e.stopPropagation()}
+                className="relative h-[85vh] aspect-[9/19] rounded-[3rem] overflow-hidden border-[6px] border-[#1f1f22]"
+              >
                 {expandedMedia.match(/\.(mp4|webm)$/i) ? (
                   <video key={expandedMedia} autoPlay controls className="w-full h-full object-cover">
                     <source src={expandedMedia} type="video/mp4" />
@@ -732,6 +823,81 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
                   <img src={expandedMedia} className="w-full h-full object-cover" alt="Fullscreen" />
                 )}
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* --- LIGHTBOX CAROUSEL PARA GALERÍA --- */}
+        <AnimatePresence>
+          {lightboxIndex !== null && selectedProject && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[400] bg-black/95 flex items-center justify-center p-4 md:p-10"
+            >
+              {/* Botón Cerrar */}
+              <button 
+                onClick={closeLightbox}
+                className="absolute top-6 right-6 md:top-10 md:right-10 z-[210] text-white/50 hover:text-white transition-colors outline-none"
+              >
+                <svg className="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+              </button>
+
+              {/* Navegación Izquierda */}
+              {lightboxIndex !== -1 && (
+                <button 
+                  onClick={lightboxPrev}
+                  className="absolute left-4 md:left-10 z-[210] text-white/50 hover:text-white transition-colors outline-none p-2"
+                >
+                  <svg className="w-10 h-10 md:w-14 md:h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M15 18l-6-6 6-6"/>
+                  </svg>
+                </button>
+              )}
+
+              {/* Imagen Actual */}
+              <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={lightboxIndex}
+                    src={lightboxIndex === -1 ? selectedProject.banner : selectedProject.gallery[lightboxIndex]}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    className="max-w-full max-h-full object-contain shadow-2xl pointer-events-auto select-none"
+                    alt="Lightbox"
+                    fetchPriority="high"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </AnimatePresence>
+                
+                {/* Contador */}
+                {lightboxIndex !== -1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/40 font-mono text-xs tracking-[0.3em]">
+                    {lightboxIndex + 1} / {selectedProject.gallery.length}
+                  </div>
+                )}
+              </div>
+
+              {/* Navegación Derecha */}
+              {lightboxIndex !== -1 && (
+                <button 
+                  onClick={lightboxNext}
+                  className="absolute right-4 md:right-10 z-[210] text-white/50 hover:text-white transition-colors outline-none p-2"
+                >
+                  <svg className="w-10 h-10 md:w-14 md:h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                </button>
+              )}
+
+              {/* Overlay de cierre al hacer click fuera */}
+              <div className="absolute inset-0 z-[205]" onClick={closeLightbox} />
             </motion.div>
           )}
         </AnimatePresence>

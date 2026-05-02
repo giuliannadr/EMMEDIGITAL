@@ -25,12 +25,7 @@ const Hero = () => {
         className="relative z-10 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center will-change-transform"
       >
         <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
-          <defs>
-            <filter id="chalkTexturizer" x="-20%" y="-20%" width="140%" height="140%">
-              <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="4" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-          </defs>
+          
 
           <svg x="5%" y="36%" width="90%" height="40%" viewBox="0 0 198 100" preserveAspectRatio="xMidYMid meet" className="hidden md:block overflow-visible">
             <path d="M 0,0 H 70 V 16 H 16 V 42 H 60 V 58 H 16 V 84 H 70 V 100 H 0 Z" fill="#FF0000" />

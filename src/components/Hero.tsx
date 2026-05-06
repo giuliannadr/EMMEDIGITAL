@@ -4,13 +4,19 @@ const Hero = () => {
   return (
     <section id="home" className="relative w-full h-screen flex flex-col md:flex-row bg-[#050505] overflow-hidden">
       
-      {/* 1. BACKGROUND EDITORIAL */}
+      {/* 1. BACKGROUND EDITORIAL - AJUSTADO PARA MÓVIL */}
       <div className="absolute inset-0 z-0">
         <img 
           src="/EMME-HERO.jpeg" 
           rel="preload"
           alt="Emme Digital Editorial"
-          className="w-full h-full object-cover opacity-90 mix-blend-screen"
+          /* 
+             CAMBIOS AQUÍ: 
+             1. 'object-center' en desktop para equilibrio.
+             2. 'object-[center_top]' en móvil para que no se pierda el foco si la cara/arte está arriba.
+             3. 'scale-110' o similar si quieres controlar el zoom exacto.
+          */
+          className="w-full h-full object-cover object-center md:object-center opacity-90 mix-blend-screen scale-105 md:scale-100"
           style={{ filter: 'contrast(1.1) brightness(0.9)' }}
         />
         <div className="absolute inset-0 bg-black/10"></div>
@@ -25,8 +31,6 @@ const Hero = () => {
         className="relative z-10 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center will-change-transform"
       >
         <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
-          
-
           <svg x="5%" y="36%" width="90%" height="40%" viewBox="0 0 198 100" preserveAspectRatio="xMidYMid meet" className="hidden md:block overflow-visible">
             <path d="M 0,0 H 70 V 16 H 16 V 42 H 60 V 58 H 16 V 84 H 70 V 100 H 0 Z" fill="#FF0000" />
             <g>
@@ -53,7 +57,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -5 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.6, duration: 1 }}
-              x="2" y="5" fill="#F5F5F5" filter="url(#chalkTexturizer)" className="font-accent" style={{ fontSize: "28px" }}
+              x="2" y="5" fill="#F5F5F5" className="font-accent" style={{ fontSize: "28px" }}
             >
               digital
             </motion.text>
@@ -89,21 +93,19 @@ const Hero = () => {
           <rect width="100%" height="100%" fill="#FF0000" mask="url(#me-mask-desktop)" className="hidden md:block" />
           <rect width="100%" height="100%" fill="#FF0000" mask="url(#me-mask-mobile)" className="block md:hidden" />
 
-          {/* TEXTO DESKTOP: Metido en el viewBox de la ME para que se mueva con ella */}
           <svg x="5%" y="36%" width="90%" height="40%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="hidden md:block overflow-visible">
-            <text x="194" y="130" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '5px', letterSpacing: '0.2em' }}>
+            <text x="194" y="95" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '5px', letterSpacing: '0.2em' }}>
               <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
-              <tspan x="194" dy="7">QUE TU MARCA NECESITA</tspan>
+              <tspan x="194" dy="7">QUE TU MARCA NECESITA.</tspan>
             </text>
           </svg>
 
-          {/* TEXTO MOBILE: Posicionado más abajo para librar el cuadro */}
-         <svg x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="block md:hidden overflow-visible">
-  <text x="194" y="120" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '8px', letterSpacing: '0.2em' }}>
-    <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
-    <tspan x="194" dy="12">QUE TU MARCA NECESITA</tspan>
-  </text>
-</svg>
+          <svg x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" className="block md:hidden overflow-visible">
+            <text x="194" y="120" fill="white" textAnchor="end" className="font-sans font-bold uppercase" style={{ fontSize: '8px', letterSpacing: '0.2em' }}>
+              <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
+              <tspan x="194" dy="12">QUE TU MARCA NECESITA.</tspan>
+            </text>
+          </svg>
         </svg>
       </motion.div>
 
@@ -112,8 +114,8 @@ const Hero = () => {
         <div className="relative group">
           <div className="absolute -inset-4 bg-[#FF0000]/15 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
           <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 min-w-[280px] md:min-w-[400px] flex flex-col items-center text-center">
-            <div className="flex justify-between items-start mb-8 w-full">
-              <div className="w-2.5 h-2.5 bg-[#FF0000] animate-pulse rounded-full"></div>
+            <div className="flex justify-end items-start mb-8 w-full">
+              <div className="w-4 h-4 bg-[#B91C1C] animate-pulse rounded-full shadow-[0_0_60px_10px_#ffffff] border-2 border-white/80"></div>
             </div>
             <p className="text-white font-sans text-xl md:text-3xl font-medium leading-tight tracking-tight mb-10 max-w-sm">
               “DEFINIMOS EL 

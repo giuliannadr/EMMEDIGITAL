@@ -19,22 +19,8 @@ interface Project {
 }
 
 const allProjects: Project[] = [
-  {
-    id: '01',
-    title: 'Tuli Acosta',
-    brandName: 'Tuli Acosta',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '/Tuli/tuli6.webp',
-    category: 'Contenido Visual',
-    description: 'Una propuesta basada en el uso de color y styling como recurso principal. La producción enfatiza el contraste, la textura y la expresión, generando imágenes directas y con identidad.',
-    img: '/Tuli/tuli6.webp',
-    aspect: 'aspect-[3/4]',
-    gallery: ['/Tuli/tuli5.webp', '/Tuli/tuli3.webp',  '/Tuli/tuli7.webp'],
-    banner: '/Tuli/tuli8.webp',
-    color: '#042759',
-    mockup: [],
-  }, 
+  
+   
  
   {
     id: '06',
@@ -43,7 +29,7 @@ const allProjects: Project[] = [
     brandHandle: '@thepadelcastelar',
     brandTopic: 'Deportes',
     brandLogo: '/Padel/padel-logo.webp',
-    category: 'Social Media',
+    category: 'Redes Sociales',
     description: 'The Padel Castelar es un espacio enfocado en el entrenamiento y la comunidad. Su comunicación integra contenido dinámico en cancha con una identidad de colores intensos y tipografías marcadas que transmiten pura energía y acción.\n\nEl objetivo: posicionar una marca activa y accesible para todos los niveles, priorizando la mejora del juego y la conversión en cada pieza.',
     img: '/Padel/padel2.webp',
     aspect: 'aspect-[3/4]',
@@ -59,13 +45,28 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Moda',
     brandLogo: '',
-    category: 'Contenido Visual',
+    category: 'Producción Visual',
     description: 'El encaje como prenda logra hacernos sentir atrevidas, rebeldes y sexys por eso se puede decir que llega para enfatizar la belleza y la confianza de uno mismo.',
     img: '/Nylon/nylon2.webp',
     aspect: 'aspect-[3/4]',
     gallery: ['/Nylon/nylon1.webp', '/Nylon/nylon2.webp', '/Nylon/nylon3.webp', '/Nylon/nylon4.webp'],
     banner: '/Nylon/nylon-banner.webp',
     color: '#4b0f0e',
+    mockup: [],
+  }, 
+   {id: '01',
+    title: 'Tuli Acosta',
+    brandName: 'Tuli Acosta',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '/Tuli/tuli6.webp',
+    category: 'Producción Visual',
+    description: 'Una propuesta basada en el uso de color y styling como recurso principal. La producción enfatiza el contraste, la textura y la expresión, generando imágenes directas y con identidad.',
+    img: '/Tuli/tuli6.webp',
+    aspect: 'aspect-[3/4]',
+    gallery: ['/Tuli/tuli5.webp', '/Tuli/tuli3.webp',  '/Tuli/tuli7.webp'],
+    banner: '/Tuli/tuli8.webp',
+    color: '#042759',
     mockup: [],
   }, 
   {
@@ -75,9 +76,9 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Moda',
     brandLogo: '/Brutalismo/brutalismo-logo.webp',
-    category: 'Contenido Visual',
+    category: 'Producción Visual',
     description: 'El brutalismo, un movimiento arquitectónico caracterizado por su uso del hormigón desnudo y líneas geométricas simples. \n\nEl énfasis en la autenticidad y la funcionalidad se traduce en la búsqueda de textiles y materiales que reflejen esta crudeza, así como en la adopción de siluetas estructuradas y formas angulares.',
-    img: '/Brutalismo/brutalismo2.webp',
+    img: '/Brutalismo/brutalismo1.webp',
     aspect: 'aspect-[3/4]',
     gallery: ['/Brutalismo/brutalismo1.webp', '/Brutalismo/brutalismo2.webp', '/Brutalismo/brutalismo3.webp', '/Brutalismo/brutalismo4.webp'],
     banner: '/Brutalismo/brutalismo-banner.webp',
@@ -91,16 +92,31 @@ const allProjects: Project[] = [
     brandHandle: '@bigbig.ba',
     brandTopic: '',
     brandLogo: '/BIG/big3.webp',
-    category: 'Contenido Visual', 
+    category: 'Producción Visual', 
     description: 'Prendas de abrigo con presencia marcan el tono de una propuesta pensada para invierno. Siluetas claras, volúmenes definidos y una paleta neutra acompañan una estética limpia, donde cada prenda toma protagonismo.', 
-    img: '/BIG/big3.webp', 
+    img: '/BIG/big-banner.webp', 
     aspect: 'aspect-[3/4]',
     gallery: ['/BIG/big1.webp', '/BIG/big2.webp', '/BIG/big3.webp', '/BIG/big4.webp'],
     banner: '/BIG/big-banner.webp',
     color: '#bcaa95' ,
     mockup: [],
   },
-  
+  {
+    id: '05',
+    title: 'Freeport Eventos',
+    brandName: 'Freeport Eventos',
+    brandHandle: '@freeport.eventos',
+    brandTopic: 'Salón de Eventos',
+    brandLogo: '/FreePort/freeport-logo.webp',
+    category: 'Redes Sociales',
+    description: 'Freeport Eventos es un espacio donde la estética y la ambientación son protagonistas. Su comunicación se enfoca en los montajes y detalles que construyen la experiencia, mostrando el lugar en uso con una identidad visual de iluminación cuidada y encuadres amplios.\n\nEl objetivo: posicionar la marca como una opción exclusiva y versátil, destacando la versatilidad del espacio y la calidad del resultado final en cada evento.',
+    img: '/FreePort/freeport4.webp',
+    aspect: 'aspect-[3/4]',
+    gallery: ['/FreePort/freeport1.webp', '/FreePort/freeport2.webp', '/FreePort/freeport3.webp', '/FreePort/freeport4.webp'],
+    banner: '/FreePort/freeportbanner.webp',
+    color: '#090844',
+    mockup: ['/FreePort/freeport-video1.mp4', '/FreePort/freeport-video2.mp4'],
+  },
   
   {
     id: '07',
@@ -109,9 +125,9 @@ const allProjects: Project[] = [
     brandHandle: '@fem.salon',
     brandTopic: 'Peluquería',
     brandLogo: '/Fem/fem-logo.webp',
-    category: 'Social Media',
+    category: 'Redes Sociales',
     description: 'EM es un salón de belleza de estética femenina, moderna y prolija. Su comunicación se centra en la experiencia y los resultados reales, combinando procesos técnicos con la naturalidad del día a día.\n\nA través de tonos neutros y luz natural, la identidad visual transmite un profesionalismo cercano.\n\n El objetivo: posicionar un espacio confiable y consistente, con foco absoluto en la calidad de cada transformación.',
-    img: '/Fem/fem1.webp',
+    img: '/Fem/fem4.webp',
     aspect: 'aspect-[3/4]',
     gallery: ['/Fem/fem1.webp', '/Fem/fem2.webp', '/Fem/fem3.webp', '/Fem/fem4.webp'],
     banner: '/Fem/fembanner.webp',
@@ -125,9 +141,9 @@ const allProjects: Project[] = [
     brandHandle: '@yosef.calzados',
     brandTopic: '',
     brandLogo: '/Yosef/yosef4.webp',
-    category: 'Contenido Visual',
+    category: 'Producción Visual',
     description: 'La producción se apoya en la ciudad como escenario. El styling define la imagen: botas protagonistas, siluetas definidas y una paleta cálida que refuerza el tono de la propuesta.\n\nEl resultado es una serie con impronta urbana, donde actitud y estilo se combinan de forma directa.',
-    img: '/Yosef/yosef5.webp',
+    img: '/Yosef/yosef1.webp',
     aspect: 'aspect-[3/4]',
     gallery: ['/Yosef/yosef1.webp', '/Yosef/yosef2.webp', '/Yosef/yosef3.webp', '/Yosef/yosef4.webp'],
     banner: '/Yosef/yosef-banner.webp',
@@ -140,7 +156,7 @@ const allProjects: Project[] = [
     brandHandle: '@ccarolina.store',
     brandTopic: '',
     brandLogo: '/Carolina/carolina-logo.webp',
-    category: 'Contenido Visual', 
+    category: 'Producción Visual', 
     description: 'Una propuesta donde el lenguaje urbano se vuelve central. Texturas, color y locación se integran con naturalidad, mientras el styling marca el tono entre lo casual y lo expresivo.\n\nLa imagen se construye desde la actitud, con una impronta contemporánea y definida.', 
     img: '/Carolina/carolina2.webp', 
     aspect: 'aspect-[3/4]',
@@ -155,7 +171,7 @@ const allProjects: Project[] = [
     brandHandle: '@estancia_gaona',
     brandTopic: 'Gastronomía',
     brandLogo: '/Estancia/estancia-logo.webp',
-    category: 'Social Media',
+    category: 'Redes Sociales',
     description: 'Estancia Gaona es un restaurante donde el producto y el ambiente son protagonistas. Su comunicación combina procesos de cocina y momentos reales para transmitir una identidad auténtica, apoyada en una estética de tonos cálidos y texturas rústicas.\n\nEl objetivo: posicionar la marca como un punto de encuentro referente en Zona Oeste, destacando la tradición de la parrilla y la calidez de una experiencia cercana.',
     img: '/Estancia/estancia2.webp',
     aspect: 'aspect-[3/4]',
@@ -171,7 +187,7 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Belleza',
     brandLogo: '/Roxana/roxana4.webp',
-    category: 'Contenido Visual',
+    category: 'Producción Visual',
     description: 'La producción se apoya en una estética limpia y luminosa. La dirección prioriza la expresión y el movimiento, generando imágenes equilibradas donde la naturalidad y la simplicidad definen el resultado final.',
     img: '/Roxana/roxana-portada.webp',
     aspect: 'aspect-[3/4]',
@@ -183,22 +199,7 @@ const allProjects: Project[] = [
   
   
  
- {
-    id: '05',
-    title: 'Freeport Eventos',
-    brandName: 'Freeport Eventos',
-    brandHandle: '@freeport.eventos',
-    brandTopic: 'Salón de Eventos',
-    brandLogo: '/FreePort/freeport-logo.webp',
-    category: 'Social Media',
-    description: 'Freeport Eventos es un espacio donde la estética y la ambientación son protagonistas. Su comunicación se enfoca en los montajes y detalles que construyen la experiencia, mostrando el lugar en uso con una identidad visual de iluminación cuidada y encuadres amplios.\n\nEl objetivo: posicionar la marca como una opción exclusiva y versátil, destacando la versatilidad del espacio y la calidad del resultado final en cada evento.',
-    img: '/FreePort/freeport4.webp',
-    aspect: 'aspect-[3/4]',
-    gallery: ['/FreePort/freeport1.webp', '/FreePort/freeport2.webp', '/FreePort/freeport3.webp', '/FreePort/freeport4.webp'],
-    banner: '/FreePort/freeportbanner.webp',
-    color: '#090844',
-    mockup: ['/FreePort/freeport-video1.mp4', '/FreePort/freeport-video2.mp4'],
-  },
+ 
   {
     id: '11',
     title: 'Berenice Cafetería',
@@ -206,7 +207,7 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Gastronomía',
     brandLogo: '/Berenice/berenice2.webp',
-    category: 'Contenido Visual',
+    category: 'Producción Visual',
     description: 'Una producción que celebra la llegada de la primavera a través de una experiencia de cafetería donde el café, las tortas y las meriendas se vuelven parte de un mismo ritual. \n\nEntre flores, luz natural y tonos cálidos, las imágenes buscan transmitir frescura, disfrute y esos momentos simples que acompañan la rutina con sabor y calma.',
     img: '/Berenice/berenice3.webp',
     aspect: 'aspect-[3/4]',
@@ -220,7 +221,7 @@ const allProjects: Project[] = [
 
 ];
 
-const categories = ['Todo', 'Social Media', 'Contenido Visual', 'Web'];
+const categories = ['Todo', 'Redes Sociales', 'Producción Visual','Audiovisual',];
 
 const prefetchImages = (urls: (string | undefined)[], priority = false) => {
   if (typeof window === 'undefined') return;

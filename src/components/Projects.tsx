@@ -19,9 +19,6 @@ interface Project {
 }
 
 const allProjects: Project[] = [
-  
-   
- 
   {
     id: '06',
     title: 'The Padel Castelar',
@@ -39,22 +36,6 @@ const allProjects: Project[] = [
     mockup: ['/Padel/padel-video1.mp4', '/Padel/padel-video2.mp4'],
   }, 
   {
-    id: 'av-0',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/15.mp4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
-  },
-  {
     id: '13',
     title: '"Encaje" By Nylon',
     brandName: 'Nylon',
@@ -70,23 +51,7 @@ const allProjects: Project[] = [
     color: '#4b0f0e',
     mockup: [],
   }, 
-  {
-    id: 'av-1',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/19.mp4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
-  },
-   {id: '01',
+  {id: '01',
     title: 'Tuli Acosta',
     brandName: 'Tuli Acosta',
     brandHandle: '',
@@ -101,22 +66,6 @@ const allProjects: Project[] = [
     color: '#042759',
     mockup: [],
   }, 
-  {
-    id: 'av-2',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/23.mp4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
-  },
   { 
     id: '02', 
     title: 'BIGBIG', 
@@ -134,22 +83,6 @@ const allProjects: Project[] = [
     mockup: [],
   }, 
   {
-    id: 'av-3',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/24.mp4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
-  },
-   {
     id: '12',
     title: 'Brutalismo Project',
     brandName: 'Brutalismo Project',
@@ -163,22 +96,6 @@ const allProjects: Project[] = [
     gallery: ['/Brutalismo/brutalismo1.webp', '/Brutalismo/brutalismo2.webp', '/Brutalismo/brutalismo3.webp', '/Brutalismo/brutalismo4.webp'],
     banner: '/Brutalismo/brutalismo-banner.webp',
     color: '#544b46',
-    mockup: [],
-  },
-  {
-    id: 'av-4',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/25.mp4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
     mockup: [],
   },
   {
@@ -198,22 +115,6 @@ const allProjects: Project[] = [
     mockup: ['/FreePort/freeport-video1.mp4', '/FreePort/freeport-video2.mp4'],
   },
   {
-    id: 'av-5',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/16.mp4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
-  },
-  {
     id: '07',
     title: 'Fem Salón',
     brandName: 'Fem Salón',
@@ -228,22 +129,6 @@ const allProjects: Project[] = [
     banner: '/Fem/fembanner.webp',
     color: '#d1ab9b',
     mockup: ['/Fem/fem-video1.mp4', '/Fem/fem-video2.mp4'],
-  },
-  {
-    id: 'av-6',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/2.MP4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
   },
   {
     id: '04',
@@ -292,22 +177,6 @@ const allProjects: Project[] = [
     mockup: ['/Estancia/estancia-video1.mp4', '/Estancia/estancia-video2.mp4'],
   },
   {
-    id: 'av-7',
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: '/VIDEOS/7.mp4',
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
-  },
-  {
     id: '09',
     title: 'Revista Plush',
     brandName: 'Roxana Zarecki',
@@ -339,6 +208,23 @@ const allProjects: Project[] = [
     color: '#a56f2d',
     mockup: [],
   },
+  // --- EDICIÓN AUDIOVISUAL (TODOS LOS VIDEOS) ---
+  ...Array.from({ length: 26 }, (_, i) => ({
+    id: `av-${i + 1}`,
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: `/VIDEOS/${i + 1}.mp4`,
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
+    mockup: [],
+  })),
 ];
 
 const categories = ['Todo', 'Redes Sociales', 'Producción Visual','Edición Audiovisual',];
@@ -899,7 +785,7 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
                         `}} />
 
                         {selectedProject.mockup.slice(0, 2).map((src, i) => {
-                          const isVideo = src.match(/\.(mp4|webm)$/i);
+                          const isVideo = src.match(/\.(mp4|webm|mov)$/i);
                           
                           return (
                             <div 

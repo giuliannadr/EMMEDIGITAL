@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-const Word = ({ children, progress, range, isItalic }: { children: React.ReactNode, progress: any, range: [number, number], isItalic?: boolean }) => {
+const Word = memo(({ children, progress, range, isItalic }: { children: React.ReactNode, progress: any, range: [number, number], isItalic?: boolean }) => {
   const opacity = useTransform(progress, range, [0.15, 1]);
   const y = useTransform(progress, range, [15, 0]);
 
@@ -17,7 +17,28 @@ const Word = ({ children, progress, range, isItalic }: { children: React.ReactNo
       {children}
     </motion.span>
   );
-};
+});
+
+Word.displayName = 'Word';
+
+const manifesto = [
+  { text: "EMME", italic: false },
+  { text: "DIGITAL", italic: true },
+  { text: "ES", italic: false },
+  { text: "EL", italic: false },
+  { text: "PROCESO", italic: false },
+  { text: "DE", italic: false },
+  { text: "PENSAR", italic: false },
+  { text: "CON", italic: false },
+  { text: "CRITERIO,", italic: true },
+  { text: "CREAR", italic: false },
+  { text: "CON", italic: false },
+  { text: "INTENCIÓN", italic: true },
+  { text: "Y", italic: false },
+  { text: "COMUNICAR", italic: false },
+  { text: "CON", italic: false },
+  { text: "IMPACTO.", italic: true },
+];
 
 const BrandPresentation = () => {
   const container = useRef<HTMLElement>(null);
@@ -29,24 +50,7 @@ const BrandPresentation = () => {
   const backgroundColor = useTransform(scrollYProgress, [0, 0.3], ['#050505', '#F5F5F5']);
   const color = useTransform(scrollYProgress, [0, 0.3], ['#F5F5F5', '#050505']);
 
-  const manifesto = [
-    { text: "EMME", italic: false },
-    { text: "DIGITAL", italic: true },
-    { text: "ES", italic: false },
-    { text: "EL", italic: false },
-    { text: "PROCESO", italic: false },
-    { text: "DE", italic: false },
-    { text: "PENSAR", italic: false },
-    { text: "CON", italic: false },
-    { text: "CRITERIO,", italic: true },
-    { text: "CREAR", italic: false },
-    { text: "CON", italic: false },
-    { text: "INTENCIÓN", italic: true },
-    { text: "Y", italic: false },
-    { text: "COMUNICAR", italic: false },
-    { text: "CON", italic: false },
-    { text: "IMPACTO.", italic: true },
-  ];
+
 
   return (
     <motion.section 

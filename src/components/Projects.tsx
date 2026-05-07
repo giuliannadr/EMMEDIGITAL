@@ -39,6 +39,22 @@ const allProjects: Project[] = [
     mockup: ['/Padel/padel-video1.mp4', '/Padel/padel-video2.mp4'],
   }, 
   {
+    id: 'av-0',
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/15.mp4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
+    mockup: [],
+  },
+  {
     id: '13',
     title: '"Encaje" By Nylon',
     brandName: 'Nylon',
@@ -54,6 +70,22 @@ const allProjects: Project[] = [
     color: '#4b0f0e',
     mockup: [],
   }, 
+  {
+    id: 'av-1',
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/19.mp4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
+    mockup: [],
+  },
    {id: '01',
     title: 'Tuli Acosta',
     brandName: 'Tuli Acosta',
@@ -70,19 +102,19 @@ const allProjects: Project[] = [
     mockup: [],
   }, 
   {
-    id: '12',
-    title: 'Brutalismo Project',
-    brandName: 'Brutalismo Project',
+    id: 'av-2',
+    title: '',
+    brandName: '',
     brandHandle: '',
-    brandTopic: 'Moda',
-    brandLogo: '/Brutalismo/brutalismo-logo.webp',
-    category: 'Producción Visual',
-    description: 'El brutalismo, un movimiento arquitectónico caracterizado por su uso del hormigón desnudo y líneas geométricas simples. \n\nEl énfasis en la autenticidad y la funcionalidad se traduce en la búsqueda de textiles y materiales que reflejen esta crudeza, así como en la adopción de siluetas estructuradas y formas angulares.',
-    img: '/Brutalismo/brutalismo1.webp',
-    aspect: 'aspect-[3/4]',
-    gallery: ['/Brutalismo/brutalismo1.webp', '/Brutalismo/brutalismo2.webp', '/Brutalismo/brutalismo3.webp', '/Brutalismo/brutalismo4.webp'],
-    banner: '/Brutalismo/brutalismo-banner.webp',
-    color: '#544b46',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/23.mp4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
     mockup: [],
   },
   { 
@@ -99,6 +131,54 @@ const allProjects: Project[] = [
     gallery: ['/BIG/big1.webp', '/BIG/big2.webp', '/BIG/big3.webp', '/BIG/big4.webp'],
     banner: '/BIG/big-banner.webp',
     color: '#bcaa95' ,
+    mockup: [],
+  }, 
+  {
+    id: 'av-3',
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/24.mp4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
+    mockup: [],
+  },
+   {
+    id: '12',
+    title: 'Brutalismo Project',
+    brandName: 'Brutalismo Project',
+    brandHandle: '',
+    brandTopic: 'Moda',
+    brandLogo: '/Brutalismo/brutalismo-logo.webp',
+    category: 'Producción Visual',
+    description: 'El brutalismo, un movimiento arquitectónico caracterizado por su uso del hormigón desnudo y líneas geométricas simples. \n\nEl énfasis en la autenticidad y la funcionalidad se traduce en la búsqueda de textiles y materiales que reflejen esta crudeza, así como en la adopción de siluetas estructuradas y formas angulares.',
+    img: '/Brutalismo/brutalismo1.webp',
+    aspect: 'aspect-[3/4]',
+    gallery: ['/Brutalismo/brutalismo1.webp', '/Brutalismo/brutalismo2.webp', '/Brutalismo/brutalismo3.webp', '/Brutalismo/brutalismo4.webp'],
+    banner: '/Brutalismo/brutalismo-banner.webp',
+    color: '#544b46',
+    mockup: [],
+  },
+  {
+    id: 'av-4',
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/25.mp4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
     mockup: [],
   },
   {
@@ -117,7 +197,22 @@ const allProjects: Project[] = [
     color: '#090844',
     mockup: ['/FreePort/freeport-video1.mp4', '/FreePort/freeport-video2.mp4'],
   },
-  
+  {
+    id: 'av-5',
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/16.mp4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
+    mockup: [],
+  },
   {
     id: '07',
     title: 'Fem Salón',
@@ -133,6 +228,22 @@ const allProjects: Project[] = [
     banner: '/Fem/fembanner.webp',
     color: '#d1ab9b',
     mockup: ['/Fem/fem-video1.mp4', '/Fem/fem-video2.mp4'],
+  },
+  {
+    id: 'av-6',
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/2.MP4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
+    mockup: [],
   },
   {
     id: '04',
@@ -160,8 +271,8 @@ const allProjects: Project[] = [
     description: 'Una propuesta donde el lenguaje urbano se vuelve central. Texturas, color y locación se integran con naturalidad, mientras el styling marca el tono entre lo casual y lo expresivo.\n\nLa imagen se construye desde la actitud, con una impronta contemporánea y definida.', 
     img: '/Carolina/carolina2.webp', 
     aspect: 'aspect-[3/4]',
-    gallery: ['/Carolina/carolina5.webp', '/Carolina/carolina6.webp', '/Carolina/carolina3.webp', '/Carolina/carolina4.webp'],
-    banner: '/Carolina/carolina1.webp',
+    gallery: ['/Carolina/carolina1.webp', '/Carolina/carolina2.webp'],
+    banner: '/Carolina/carolina-banner.webp',
     color: '#7a7a78',
     mockup: [],
   },  {
@@ -181,6 +292,22 @@ const allProjects: Project[] = [
     mockup: ['/Estancia/estancia-video1.mp4', '/Estancia/estancia-video2.mp4'],
   },
   {
+    id: 'av-7',
+    title: '',
+    brandName: '',
+    brandHandle: '',
+    brandTopic: '',
+    brandLogo: '',
+    category: 'Edición Audiovisual',
+    description: '',
+    img: '/VIDEOS/7.mp4',
+    aspect: 'aspect-[9/16]',
+    gallery: [],
+    banner: '',
+    color: '#000000',
+    mockup: [],
+  },
+  {
     id: '09',
     title: 'Revista Plush',
     brandName: 'Roxana Zarecki',
@@ -191,15 +318,11 @@ const allProjects: Project[] = [
     description: 'La producción se apoya en una estética limpia y luminosa. La dirección prioriza la expresión y el movimiento, generando imágenes equilibradas donde la naturalidad y la simplicidad definen el resultado final.',
     img: '/Roxana/roxana-portada.webp',
     aspect: 'aspect-[3/4]',
-    gallery: ['/Roxana/roxana1.webp', '/Roxana/roxana2.webp', '/Roxana/roxana3.webp', '/Roxana/roxana4.webp'],
+    gallery: ['/Roxana/roxana1.webp', '/Roxana/roxana2.webp'],
     banner: '/Roxana/roxana-banner.webp',
     color: '#8e302e',
     mockup: [],
   },
-  
-  
- 
- 
   {
     id: '11',
     title: 'Berenice Cafetería',
@@ -216,17 +339,14 @@ const allProjects: Project[] = [
     color: '#a56f2d',
     mockup: [],
   },
- 
- 
-
 ];
 
-const categories = ['Todo', 'Redes Sociales', 'Producción Visual','Audiovisual',];
+const categories = ['Todo', 'Redes Sociales', 'Producción Visual','Edición Audiovisual',];
 
 const prefetchImages = (urls: (string | undefined)[], priority = false) => {
   if (typeof window === 'undefined') return;
   urls.forEach(url => {
-    if (!url || url.match(/\.(mp4|webm)$/i)) return;
+    if (!url || url.match(/\.(mp4|webm|mov)$/i)) return;
     
     // Usamos el objeto Image para pre-cargar de forma más ligera y eficiente
     const img = new Image();
@@ -237,6 +357,48 @@ const prefetchImages = (urls: (string | undefined)[], priority = false) => {
     img.src = url;
   });
 };
+
+const VideoPreview = memo(({ src }: { src: string }) => {
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            videoRef.current?.play().catch(() => {});
+          } else {
+            videoRef.current?.pause();
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '100px' // Empezar a cargar/reproducir un poco antes de que sea visible
+      }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video 
+      ref={videoRef}
+      src={src}
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
+    />
+  );
+});
+
+VideoPreview.displayName = 'VideoPreview';
 
 const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project: Project; onClick: () => void; index: number; isCarouselItem?: boolean }) => {
   const handleMouseEnter = useCallback(() => {
@@ -257,37 +419,43 @@ const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project
       onMouseEnter={handleMouseEnter}
       className="relative group overflow-hidden cursor-pointer rounded-xl isolate aspect-[4/3] will-change-transform border border-black/5"
     >
-      <motion.img 
-        layoutId={isCarouselItem ? undefined : `img-${project.id}`}
-        src={project.img} 
-        className="
-          w-full h-full object-cover 
-          /* Efecto Blanco y Negro a Color */
-          grayscale group-hover:grayscale-0 
-          /* Transiciones combinadas */
-          transition-all duration-700 ease-in-out 
-          group-hover:scale-105 
-          will-change-transform
-        " 
-        style={{ imageRendering: 'auto' }} 
-        alt={project.brandName} 
-        loading={loading}
-        fetchPriority={fetchPriority}
-        decoding="async"
-      />
+      {project.img.match(/\.(mp4|webm|mov)$/i) ? (
+        <VideoPreview src={project.img} />
+      ) : (
+        <motion.img 
+          layoutId={isCarouselItem ? undefined : `img-${project.id}`}
+          src={project.img} 
+          className="
+            w-full h-full object-cover 
+            /* Efecto Blanco y Negro a Color */
+            grayscale group-hover:grayscale-0 
+            /* Transiciones combinadas */
+            transition-all duration-700 ease-in-out 
+            group-hover:scale-105 
+            will-change-transform
+          " 
+          style={{ imageRendering: 'auto' }} 
+          alt={project.brandName} 
+          loading={loading}
+          fetchPriority={fetchPriority}
+          decoding="async"
+        />
+      )}
       
       {/* Overlay y Textos */}
       <div className="absolute bottom-4 left-4 z-10 flex flex-col items-start gap-2 pointer-events-none transition-transform duration-300 group-hover:scale-105 origin-bottom-left will-change-transform">
-        <h3 className="text-xl font-black text-[#FF0000] uppercase italic leading-none tracking-tighter">
-          {project.brandName}
-        </h3>
+        {project.category !== 'Edición Audiovisual' && (
+          <h3 className="text-xl font-black text-[#FF0000] uppercase italic leading-none tracking-tighter">
+            {project.brandName}
+          </h3>
+        )}
         <span className="text-[9px] font-mono text-white bold border-1 border-white/60 uppercase tracking-[0.2em] px-2 py-0.5 rounded-full">
           {project.category}
         </span>
       </div>
       
-      {/* Gradiente de fondo para legibilidad */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
+      {/* Gradiente de fondo para legibilidad: También oculto o más suave para Audiovisual */}
+      <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent ${project.category === 'Edición Audiovisual' ? 'opacity-0 group-hover:opacity-40' : 'opacity-80 group-hover:opacity-60'} transition-opacity duration-500`} />
     </motion.div>
   );
 }, (prev, next) => prev.project.id === next.project.id);
@@ -360,14 +528,16 @@ const Projects = () => {
   const [expandedMedia, setExpandedMedia] = useState<string | null>(null);
 
   useEffect(() => {
-    // Pre-cargar TODAS las portadas de los proyectos al inicio para que el grid sea instantáneo
-    prefetchImages(allProjects.map(p => p.img), true);
+    // Pre-cargar solo las portadas de los primeros 6 proyectos para el LCP y arriba del fold
+    prefetchImages(allProjects.slice(0, 6).map(p => p.img), true);
     
-    // Pre-cargar banners de los primeros 6 proyectos (los más probables de ver)
-    prefetchImages(allProjects.slice(0, 6).map(p => p.banner));
-    
-    // Pre-cargar logos
-    prefetchImages(allProjects.filter(p => p.brandLogo).map(p => p.brandLogo));
+    // Pre-cargar el resto con prioridad baja después de un pequeño delay
+    const timer = setTimeout(() => {
+      prefetchImages(allProjects.slice(6).map(p => p.img), false);
+      prefetchImages(allProjects.filter(p => p.brandLogo).map(p => p.brandLogo));
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   // Pre-cargar galería completa con prioridad ultra alta cuando se selecciona un proyecto
@@ -432,6 +602,10 @@ const Projects = () => {
   }, []);
 
   const handleProjectSelect = useCallback((project: Project) => {
+    if (project.category === 'Edición Audiovisual') {
+      setExpandedMedia(project.img);
+      return;
+    }
     setSelectedProject(project);
     setShowGallery(false);
     setLightboxIndex(null);
@@ -606,7 +780,7 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
         {selectedProject.category}
       </div>
 
-      {selectedProject.category === "Social Media" && (
+      {selectedProject.category === "Redes Sociales" && (
         <button 
           onClick={() => setShowGallery(true)} 
           className="bg-[#FF0000] text-white py-4 px-10 text-[10px] font-mono uppercase tracking-[0.4em] hover:bg-black active:scale-95 transition-all duration-300 shadow-xl group outline-none will-change-transform"
@@ -661,11 +835,13 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
               colSpan = (idx === 0 || idx === 3) ? "col-span-7" : "col-span-5";
             }
             
+            const isTwoImages = selectedProject.gallery.length === 2;
+
             return (
               <div
                 key={idx}
                 onClick={() => setLightboxIndex(idx)}
-                className={`${colSpan} h-[210px] md:h-[240px] md:rounded-4xl rounded-2xl overflow-hidden cursor-zoom-in group/gimg`}
+                className={`${colSpan} ${isTwoImages ? 'h-[435px] md:h-[492px]' : 'h-[210px] md:h-[240px]'} md:rounded-4xl rounded-2xl overflow-hidden cursor-zoom-in group/gimg`}
               >
                 <img 
                   src={img} 
@@ -816,7 +992,7 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
                 onClick={(e) => e.stopPropagation()}
                 className="relative h-[85vh] aspect-[9/19] rounded-[3rem] overflow-hidden border-[6px] border-[#1f1f22]"
               >
-                {expandedMedia.match(/\.(mp4|webm)$/i) ? (
+                {expandedMedia.match(/\.(mp4|webm|mov)$/i) ? (
                   <video key={expandedMedia} autoPlay controls className="w-full h-full object-cover">
                     <source src={expandedMedia} type="video/mp4" />
                   </video>

@@ -1,16 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import Lenis from 'lenis';
 import ReactGA from 'react-ga4';
 import { Helmet, HelmetProvider } from 'react-helmet-async'; // Para SEO pro
 
-// Componentes
+// Componentes con Carga Diferida (Lazy Loading) para mejorar el FCP y LCP
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import BrandPresentation from './components/BrandPresentation';
-import Services from './components/Services';
-import Projects from './components/Projects';
-import Footer from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
+
+const BrandPresentation = lazy(() => import('./components/BrandPresentation'));
+const Services = lazy(() => import('./components/Services'));
+const Projects = lazy(() => import('./components/Projects'));
+const Footer = lazy(() => import('./components/Footer'));
 
 // Inicialización de Analytics (Fuera del componente para evitar duplicados)
 ReactGA.initialize("G-VYX0KVLCTJ");
@@ -80,12 +81,13 @@ const App = () => {
         
         <main>
           <Hero />
-          <BrandPresentation />
-          <Services />
-          <Projects />
+          <Suspense fallback={<div className="h-20 bg-[#050505]" />}>
+            <BrandPresentation />
+            <Services />
+            <Projects />
+            <Footer />
+          </Suspense>
         </main>
-
-        <Footer />
       </div>
     </HelmetProvider>
   );

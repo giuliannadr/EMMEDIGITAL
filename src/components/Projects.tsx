@@ -209,22 +209,22 @@ const allProjects: Project[] = [
     mockup: [],
   },
   // --- EDICIÓN AUDIOVISUAL (TODOS LOS VIDEOS) ---
-  ...Array.from({ length: 26 }, (_, i) => ({
-    id: `av-${i + 1}`,
-    title: '',
-    brandName: '',
-    brandHandle: '',
-    brandTopic: '',
-    brandLogo: '',
-    category: 'Edición Audiovisual',
-    description: '',
-    img: `/VIDEOS/${i + 1}.mp4`,
-    aspect: 'aspect-[9/16]',
-    gallery: [],
-    banner: '',
-    color: '#000000',
-    mockup: [],
-  })),
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26].map(i => ({
+    id: `av-${i}`,
+      title: '',
+      brandName: '',
+      brandHandle: '',
+      brandTopic: '',
+      brandLogo: '',
+      category: 'Edición Audiovisual',
+      description: '',
+      img: `/VIDEOS/${i}.mp4`,
+      aspect: 'aspect-[9/16]',
+      gallery: [],
+      banner: '',
+      color: '#000000',
+      mockup: [],
+    })),
 ];
 
 const categories = ['Todo', 'Redes Sociales', 'Producción Visual','Edición Audiovisual',];
@@ -245,6 +245,7 @@ const prefetchImages = (urls: (string | undefined)[], priority = false) => {
 };
 
 const VideoPreview = memo(({ src }: { src: string }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
   
   useEffect(() => {
@@ -259,28 +260,30 @@ const VideoPreview = memo(({ src }: { src: string }) => {
         });
       },
       { 
-        threshold: 0.1,
-        rootMargin: '100px' // Empezar a cargar/reproducir un poco antes de que sea visible
+        threshold: 0,
+        rootMargin: '600px' // Empezar a preparar el video mucho antes
       }
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
     }
 
     return () => observer.disconnect();
   }, []);
 
   return (
-    <video 
-      ref={videoRef}
-      src={src}
-      loop
-      muted
-      playsInline
-      preload="metadata"
-      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
-    />
+    <div ref={containerRef} className="w-full h-full bg-black/5">
+      <video 
+        ref={videoRef}
+        src={src}
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
+      />
+    </div>
   );
 });
 
@@ -412,6 +415,7 @@ const Projects = () => {
   // Estados para Video
   const [mutedStates, setMutedStates] = useState<{[key: number]: boolean}>({ 0: true, 1: true });
   const [expandedMedia, setExpandedMedia] = useState<string | null>(null);
+  const [isExpandedAV, setIsExpandedAV] = useState(false);
 
   useEffect(() => {
     // Pre-cargar solo las portadas de los primeros 6 proyectos para el LCP y arriba del fold
@@ -476,10 +480,32 @@ const Projects = () => {
     return () => window.removeEventListener('keydown', handler);
   }, [lightboxIndex, lightboxNext, lightboxPrev, closeLightbox]);
 
-  const filteredProjects = useMemo(() => 
-    allProjects.filter(p => activeTab === 'Todo' ? true : p.category === activeTab),
-    [activeTab]
-  );
+  const filteredProjects = useMemo(() => {
+    if (activeTab !== 'Todo') {
+      return allProjects.filter(p => p.category === activeTab);
+    }
+    
+    // Mezclar los proyectos de edición audiovisual con los demás para el filtro "Todo"
+    const normalProjects = allProjects.filter(p => p.category !== 'Edición Audiovisual');
+    const avProjects = allProjects.filter(p => p.category === 'Edición Audiovisual');
+    
+    const mixed = [];
+    let avIndex = 0;
+    
+    for (let i = 0; i < normalProjects.length; i++) {
+      mixed.push(normalProjects[i]);
+      // Intercalar 2 o 3 videos por cada proyecto normal para distribuir los 26 videos
+      if (avIndex < avProjects.length) mixed.push(avProjects[avIndex++]);
+      if (avIndex < avProjects.length) mixed.push(avProjects[avIndex++]);
+    }
+    
+    // Agregar el resto de los videos al final si quedaron
+    while (avIndex < avProjects.length) {
+      mixed.push(avProjects[avIndex++]);
+    }
+    
+    return mixed;
+  }, [activeTab]);
 
   const closePopup = useCallback(() => {
     setSelectedProject(null);
@@ -542,7 +568,7 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
           </div>
           <nav className="flex flex-row md:flex-col flex-wrap md:flex-nowrap border-b-2 md:border-b-0 md:border-l-2 border-[#FF0000] pb-4 md:pb-0 md:pl-6 py-2 gap-x-6 gap-y-4 md:gap-y-5 w-full md:w-auto">
             {categories.map((cat, index) => (
-              <button key={cat} onClick={() => setActiveTab(cat)} className="group text-left flex items-center gap-2 md:gap-3 outline-none">
+              <button key={cat} onClick={() => { setActiveTab(cat); setIsExpandedAV(false); }} className="group text-left flex items-center gap-2 md:gap-3 outline-none">
                 <span className={`text-[9px] font-mono ${activeTab === cat ? 'text-[#FF0000]' : 'text-black/20'}`}>0{index}</span>
                 <span className={`text-[13px] md:text-[15px] font-mono uppercase tracking-[0.25em] transition-all ${activeTab === cat ? 'text-black font-bold' : 'text-black/40 group-hover:text-black'}`}>{cat}</span>
               </button>
@@ -555,11 +581,40 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
           <div className="border-2 md:border-4 border-black rounded-3xl p-4 md:p-6 w-full overflow-hidden bg-white/50 backdrop-blur-sm shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
             <AnimatePresence mode="wait">
               {filteredProjects.length > 0 ? (
-                <ProjectCarousel 
-                  key={activeTab} // Reset carousel when tab changes for smooth animation restart
-                  projects={filteredProjects} 
-                  onProjectSelect={handleProjectSelect} 
-                />
+                activeTab === 'Edición Audiovisual' && isExpandedAV ? (
+                  <motion.div 
+                    key="grid-view"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -30 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"
+                  >
+                    {filteredProjects.map((project, index) => (
+                      <ProjectCard 
+                        key={project.id}
+                        project={project} 
+                        index={index}
+                        isCarouselItem={true}
+                        onClick={() => handleProjectSelect(project)} 
+                      />
+                    ))}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={`${activeTab}-carousel`}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -30 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full"
+                  >
+                    <ProjectCarousel 
+                      projects={filteredProjects} 
+                      onProjectSelect={handleProjectSelect} 
+                    />
+                  </motion.div>
+                )
               ) : (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
@@ -577,6 +632,18 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
               )}
             </AnimatePresence>
           </div>
+
+          {activeTab === 'Edición Audiovisual' && filteredProjects.length > 0 && (
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              onClick={() => setIsExpandedAV(!isExpandedAV)}
+              className="mt-8 bg-transparent border border-black hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000] text-black py-3 px-8 text-[12px] font-mono uppercase tracking-[0.2em] transition-all duration-300 outline-none"
+            >
+              {isExpandedAV ? 'Ver Menos' : 'Ver Todos'}
+            </motion.button>
+          )}
         </div>
 
         {/* --- POPUP MODAL --- */}

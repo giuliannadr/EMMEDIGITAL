@@ -10,10 +10,10 @@ const Hero = () => {
           <source media="(max-width: 768px)" srcSet="/hero-mobile.webp" />
           <img 
             src="/EMME-HERO.jpeg" 
-            rel="preload"
             alt="Emme Digital Editorial"
             fetchPriority="high"
             decoding="async"
+            loading="eager"
             className="w-full h-full object-cover object-center opacity-90 mix-blend-screen"
             style={{ filter: 'contrast(1.1) brightness(0.9)' }}
           />

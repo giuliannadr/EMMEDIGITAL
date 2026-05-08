@@ -39,12 +39,12 @@ const Footer = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-        className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center flex-grow py-8"
+        className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center flex-grow py-8 max-w-[280px] md:max-w-none mx-auto md:mx-0"
       >
         
         {/* Lado Izquierdo: Visual (Foto de Autor) */}
-        <div className="col-span-1 md:col-span-4 relative group w-full mx-auto md:mx-0">
-          <div className="aspect-[3/4.5] md:aspect-[3/4] overflow-hidden bg-[#111] grayscale group-hover:grayscale-0 transition-all duration-1000 border border-white/10 relative">
+        <div className="col-span-1 md:col-span-4 relative group w-full">
+          <div className="aspect-[1/1.2] md:aspect-[3/4] overflow-hidden bg-[#111] grayscale group-hover:grayscale-0 transition-all duration-1000 border border-white/10 relative">
             <img 
               src="/footer.webp" 
               alt="Emme Digital" 

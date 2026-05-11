@@ -17,6 +17,35 @@ interface Project {
   color: string;
   mockup: string[];
 }
+const videoTitles: Record<number, string> = {
+  1: "Belleza",
+  2: "Eventos", 
+  3: "Eventos",
+  4: "Deportes",
+  5: "Eventos",
+  6: "Deportes", 
+  7: "Automotriz", 
+  8: "Tecnología", 
+  9: "Nutrición",  
+  11: "Automotriz", 
+  12: "Deportes", 
+  13: "Belleza", 
+  14: "Belleza",  
+  17: "Gastronomía",   
+  18: "Deportes", 
+  19: "Belleza", 
+  20: "Deportes", 
+  21: "Deportes", 
+  23: "Indumentaria", 
+  24: "Indumentaria", 
+  25: "Indumentaria", 
+  26: "Tecnología",
+  
+  
+  
+  
+  // Los que no pongas acá, quedarán con un título por defecto o vacío
+};
 
 const allProjects: Project[] = [
   {
@@ -42,7 +71,7 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Moda',
     brandLogo: '',
-    category: 'Producción Visual',
+    category: 'Producción Fotográfica',
     description: 'El encaje como prenda logra hacernos sentir atrevidas, rebeldes y sexys por eso se puede decir que llega para enfatizar la belleza y la confianza de uno mismo.',
     img: '/Nylon/nylon2.webp',
     aspect: 'aspect-[3/4]',
@@ -57,7 +86,7 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: '',
     brandLogo: '/Tuli/tuli6.webp',
-    category: 'Producción Visual',
+    category: 'Producción Fotográfica',
     description: 'Una propuesta basada en el uso de color y styling como recurso principal. La producción enfatiza el contraste, la textura y la expresión, generando imágenes directas y con identidad.',
     img: '/Tuli/tuli6.webp',
     aspect: 'aspect-[3/4]',
@@ -73,7 +102,7 @@ const allProjects: Project[] = [
     brandHandle: '@bigbig.ba',
     brandTopic: '',
     brandLogo: '/BIG/big3.webp',
-    category: 'Producción Visual', 
+    category: 'Producción Fotográfica', 
     description: 'Prendas de abrigo con presencia marcan el tono de una propuesta pensada para invierno. Siluetas claras, volúmenes definidos y una paleta neutra acompañan una estética limpia, donde cada prenda toma protagonismo.', 
     img: '/BIG/big-banner.webp', 
     aspect: 'aspect-[3/4]',
@@ -89,7 +118,7 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Moda',
     brandLogo: '/Brutalismo/brutalismo-logo.webp',
-    category: 'Producción Visual',
+    category: 'Producción Fotográfica',
     description: 'El brutalismo, un movimiento arquitectónico caracterizado por su uso del hormigón desnudo y líneas geométricas simples. \n\nEl énfasis en la autenticidad y la funcionalidad se traduce en la búsqueda de textiles y materiales que reflejen esta crudeza, así como en la adopción de siluetas estructuradas y formas angulares.',
     img: '/Brutalismo/brutalismo1.webp',
     aspect: 'aspect-[3/4]',
@@ -137,7 +166,7 @@ const allProjects: Project[] = [
     brandHandle: '@yosef.calzados',
     brandTopic: '',
     brandLogo: '/Yosef/yosef4.webp',
-    category: 'Producción Visual',
+    category: 'Producción Fotográfica',
     description: 'La producción se apoya en la ciudad como escenario. El styling define la imagen: botas protagonistas, siluetas definidas y una paleta cálida que refuerza el tono de la propuesta.\n\nEl resultado es una serie con impronta urbana, donde actitud y estilo se combinan de forma directa.',
     img: '/Yosef/yosef1.webp',
     aspect: 'aspect-[3/4]',
@@ -152,7 +181,7 @@ const allProjects: Project[] = [
     brandHandle: '@ccarolina.store',
     brandTopic: '',
     brandLogo: '/Carolina/carolina-logo.webp',
-    category: 'Producción Visual', 
+    category: 'Producción Fotográfica', 
     description: 'Una propuesta donde el lenguaje urbano se vuelve central. Texturas, color y locación se integran con naturalidad, mientras el styling marca el tono entre lo casual y lo expresivo.\n\nLa imagen se construye desde la actitud, con una impronta contemporánea y definida.', 
     img: '/Carolina/carolina2.webp', 
     aspect: 'aspect-[3/4]',
@@ -183,7 +212,7 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Belleza',
     brandLogo: '/Roxana/roxana4.webp',
-    category: 'Producción Visual',
+    category: 'Producción Fotográfica',
     description: 'La producción se apoya en una estética limpia y luminosa. La dirección prioriza la expresión y el movimiento, generando imágenes equilibradas donde la naturalidad y la simplicidad definen el resultado final.',
     img: '/Roxana/roxana-portada.webp',
     aspect: 'aspect-[3/4]',
@@ -199,7 +228,7 @@ const allProjects: Project[] = [
     brandHandle: '',
     brandTopic: 'Gastronomía',
     brandLogo: '/Berenice/berenice2.webp',
-    category: 'Producción Visual',
+    category: 'Producción Fotográfica',
     description: 'Una producción que celebra la llegada de la primavera a través de una experiencia de cafetería donde el café, las tortas y las meriendas se vuelven parte de un mismo ritual. \n\nEntre flores, luz natural y tonos cálidos, las imágenes buscan transmitir frescura, disfrute y esos momentos simples que acompañan la rutina con sabor y calma.',
     img: '/Berenice/berenice3.webp',
     aspect: 'aspect-[3/4]',
@@ -212,7 +241,7 @@ const allProjects: Project[] = [
   ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26].map(i => ({
     id: `av-${i}`,
       title: '',
-      brandName: '',
+      brandName: videoTitles[i] || 'Edición Audiovisual',
       brandHandle: '',
       brandTopic: '',
       brandLogo: '',
@@ -227,7 +256,7 @@ const allProjects: Project[] = [
     })),
 ];
 
-const categories = ['Todo', 'Redes Sociales', 'Producción Visual','Edición Audiovisual',];
+const categories = ['Todo', 'Redes Sociales', 'Producción Fotográfica','Edición Audiovisual',];
 
 const prefetchImages = (urls: (string | undefined)[], priority = false) => {
   if (typeof window === 'undefined') return;
@@ -333,11 +362,11 @@ const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project
       
       {/* Overlay y Textos */}
       <div className="absolute bottom-4 left-4 z-10 flex flex-col items-start gap-2 pointer-events-none transition-transform duration-300 group-hover:scale-105 origin-bottom-left will-change-transform">
-        {project.category !== 'Edición Audiovisual' && (
+        
           <h3 className="text-xl font-black text-[#FF0000] uppercase italic leading-none tracking-tighter">
             {project.brandName}
           </h3>
-        )}
+        
         <span className="text-[9px] font-mono text-white bold border-1 border-white/60 uppercase tracking-[0.2em] px-2 py-0.5 rounded-full">
           {project.category}
         </span>

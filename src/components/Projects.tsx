@@ -280,7 +280,7 @@ const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselIte
   const [isPlaying, setIsPlaying] = React.useState(false);
   const wantsToPlayRef = React.useRef(false);
 
-  // After src is committed to DOM, attach canplay listener
+  // After src is committed to DOM, try to play if wanted
   useEffect(() => {
     if (!srcReady) return;
     const video = videoRef.current;
@@ -299,51 +299,30 @@ const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselIte
     }
   }, [srcReady]);
 
-  // Grid items: load + autoplay when near viewport
+  // Autoplay when in viewport — both carousel and grid items
   useEffect(() => {
-    if (isCarouselItem) return;
+    const rootMargin = isCarouselItem ? '0px' : '100px';
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           wantsToPlayRef.current = entry.isIntersecting;
           if (entry.isIntersecting) {
             setSrcReady(true);
-            videoRef.current?.play().catch(() => {});
+            if (videoRef.current?.src) videoRef.current.play().catch(() => {});
           } else {
             videoRef.current?.pause();
             setIsPlaying(false);
           }
         });
       },
-      { threshold: 0, rootMargin: '100px' }
+      { threshold: 0, rootMargin }
     );
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [isCarouselItem]);
 
-  // Carousel items: load + play only on hover
-  const handleMouseEnter = useCallback(() => {
-    if (!isCarouselItem) return;
-    wantsToPlayRef.current = true;
-    setSrcReady(true);
-    videoRef.current?.play().catch(() => {});
-  }, [isCarouselItem]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!isCarouselItem) return;
-    wantsToPlayRef.current = false;
-    videoRef.current?.pause();
-    setIsPlaying(false);
-  }, [isCarouselItem]);
-
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-full relative bg-black/20"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Skeleton shimmer while loading */}
+    <div ref={containerRef} className="w-full h-full relative bg-black/20">
       {!isPlaying && (
         <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-black/30 via-white/5 to-black/30" />
       )}

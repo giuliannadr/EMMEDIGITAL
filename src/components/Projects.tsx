@@ -273,59 +273,22 @@ const prefetchImages = (urls: (string | undefined)[], priority = false) => {
   });
 };
 
-const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselItem?: boolean }) => {
+const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const [srcReady, setSrcReady] = React.useState(false);
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const wantsToPlayRef = React.useRef(false);
 
-  // After src is committed to DOM: trigger load + play when ready
+  // Play when visible, pause when not
   useEffect(() => {
-    if (!srcReady) return;
-    const video = videoRef.current;
-    if (!video) return;
-    video.load(); // Tell the browser to start buffering immediately
-    if (!wantsToPlayRef.current) return;
-    const play = () => {
-      if (wantsToPlayRef.current) {
-        video.play().catch(() => {});
-        setIsPlaying(true);
-      }
-    };
-    if (video.readyState >= 1) {
-      play();
-    } else {
-      video.addEventListener('canplay', play, { once: true });
-      return () => video.removeEventListener('canplay', play);
-    }
-  }, [srcReady]);
-
-  // Preload zone observer: start loading before the card is visible
-  useEffect(() => {
-    // For carousel: extend 40% of viewport width on each side so videos
-    // start buffering before they scroll into view
-    const rootMargin = isCarouselItem ? '0px 40% 0px 40%' : '150px';
-    const preloadObserver = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) setSrcReady(true);
-        });
-      },
-      { threshold: 0, rootMargin }
-    );
-    if (containerRef.current) preloadObserver.observe(containerRef.current);
-    return () => preloadObserver.disconnect();
-  }, [isCarouselItem]);
-
-  // Playback observer: play/pause based on actual visibility
-  useEffect(() => {
-    const playObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          wantsToPlayRef.current = entry.isIntersecting;
           if (entry.isIntersecting) {
-            if (videoRef.current?.src) videoRef.current.play().catch(() => {});
+            const video = videoRef.current;
+            if (!video) return;
+            const play = () => { video.play().catch(() => {}); setIsPlaying(true); };
+            if (video.readyState >= 2) play();
+            else video.addEventListener('canplay', play, { once: true });
           } else {
             videoRef.current?.pause();
             setIsPlaying(false);
@@ -334,8 +297,8 @@ const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselIte
       },
       { threshold: 0, rootMargin: '0px' }
     );
-    if (containerRef.current) playObserver.observe(containerRef.current);
-    return () => playObserver.disconnect();
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -343,13 +306,15 @@ const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselIte
       {!isPlaying && (
         <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-black/30 via-white/5 to-black/30" />
       )}
+      {/* src siempre seteado con preload="metadata": el navegador carga el primer frame
+          de todos los videos al montar la seccion, sin esperar que sean visibles */}
       <video
         ref={videoRef}
-        src={srcReady ? src : undefined}
+        src={src}
         loop
         muted
         playsInline
-        preload={srcReady ? 'auto' : 'none'}
+        preload="metadata"
         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
       />
     </div>
@@ -379,8 +344,6 @@ const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project
     prefetchImages([...project.gallery, project.banner, ...project.mockup], true);
   }, [project]);
 
-  const fetchPriority = index < 4 ? "high" : "auto";
-  const loading = index < 4 ? "eager" : "lazy";
   const isVideo = project.img.match(/\.(mp4|webm|mov)$/i);
 
   // Carousel items use plain div — no Framer Motion overhead on 44+ simultaneous instances
@@ -388,15 +351,15 @@ const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project
     return (
       <div onClick={onClick} onMouseEnter={handleMouseEnter} className={CARD_CLASS}>
         {isVideo ? (
-          <VideoPreview src={project.img} isCarouselItem={true} />
+          <VideoPreview src={project.img} />
         ) : (
           <img
             src={project.img}
             className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105 will-change-transform"
             style={{ imageRendering: 'auto' }}
             alt={project.brandName}
-            loading={loading}
-            fetchPriority={fetchPriority}
+            loading="eager"
+            fetchPriority="high"
             decoding="async"
           />
         )}
@@ -416,7 +379,7 @@ const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project
       className={CARD_CLASS}
     >
       {isVideo ? (
-        <VideoPreview src={project.img} isCarouselItem={false} />
+        <VideoPreview src={project.img} />
       ) : (
         <motion.img
           layoutId={`img-${project.id}`}
@@ -489,16 +452,12 @@ const Projects = () => {
   const [isExpandedAV, setIsExpandedAV] = useState(false);
 
   useEffect(() => {
-    // Pre-cargar solo las portadas de los primeros 6 proyectos para el LCP y arriba del fold
-    prefetchImages(allProjects.slice(0, 6).map(p => p.img), true);
-    
-    // Pre-cargar el resto con prioridad baja después de un pequeño delay
-    const timer = setTimeout(() => {
-      prefetchImages(allProjects.slice(6).map(p => p.img), false);
-      prefetchImages(allProjects.filter(p => p.brandLogo).map(p => p.brandLogo));
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    // Prefetch de todas las imágenes de cards al montar
+    const nonAV = allProjects.filter(p => p.category !== 'Edición Audiovisual');
+    prefetchImages(nonAV.map(p => p.img), true);
+    prefetchImages(nonAV.map(p => p.banner).filter(Boolean), false);
+    prefetchImages(nonAV.flatMap(p => p.gallery), false);
+    prefetchImages(allProjects.filter(p => p.brandLogo).map(p => p.brandLogo), false);
   }, []);
 
   // Pre-cargar galería completa con prioridad ultra alta cuando se selecciona un proyecto

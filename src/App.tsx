@@ -81,10 +81,16 @@ const App = () => {
         
         <main>
           <Hero />
-          <Suspense fallback={<div className="h-20 bg-[#050505]" />}>
+          <Suspense fallback={<div className="h-screen bg-[#050505]" />}>
             <BrandPresentation />
+          </Suspense>
+          <Suspense fallback={<div className="h-screen bg-[#050505]" />}>
             <Services />
+          </Suspense>
+          <Suspense fallback={<div className="h-screen bg-[#F5F5F5]" />}>
             <Projects />
+          </Suspense>
+          <Suspense fallback={<div className="h-40 bg-[#050505]" />}>
             <Footer />
           </Suspense>
         </main>

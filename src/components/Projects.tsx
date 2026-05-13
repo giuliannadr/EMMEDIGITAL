@@ -273,43 +273,87 @@ const prefetchImages = (urls: (string | undefined)[], priority = false) => {
   });
 };
 
-const VideoPreview = memo(({ src }: { src: string }) => {
+const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselItem?: boolean }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  
+  const [srcReady, setSrcReady] = React.useState(false);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const wantsToPlayRef = React.useRef(false);
+
+  // After src is committed to DOM, attach canplay listener
   useEffect(() => {
+    if (!srcReady) return;
+    const video = videoRef.current;
+    if (!video || !wantsToPlayRef.current) return;
+    const play = () => {
+      if (wantsToPlayRef.current) {
+        video.play().catch(() => {});
+        setIsPlaying(true);
+      }
+    };
+    if (video.readyState >= 1) {
+      play();
+    } else {
+      video.addEventListener('canplay', play, { once: true });
+      return () => video.removeEventListener('canplay', play);
+    }
+  }, [srcReady]);
+
+  // Grid items: load + autoplay when near viewport
+  useEffect(() => {
+    if (isCarouselItem) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
+          wantsToPlayRef.current = entry.isIntersecting;
           if (entry.isIntersecting) {
+            setSrcReady(true);
             videoRef.current?.play().catch(() => {});
           } else {
             videoRef.current?.pause();
+            setIsPlaying(false);
           }
         });
       },
-      { 
-        threshold: 0,
-        rootMargin: '600px' // Empezar a preparar el video mucho antes
-      }
+      { threshold: 0, rootMargin: '100px' }
     );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
+    if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [isCarouselItem]);
+
+  // Carousel items: load + play only on hover
+  const handleMouseEnter = useCallback(() => {
+    if (!isCarouselItem) return;
+    wantsToPlayRef.current = true;
+    setSrcReady(true);
+    videoRef.current?.play().catch(() => {});
+  }, [isCarouselItem]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!isCarouselItem) return;
+    wantsToPlayRef.current = false;
+    videoRef.current?.pause();
+    setIsPlaying(false);
+  }, [isCarouselItem]);
 
   return (
-    <div ref={containerRef} className="w-full h-full bg-black/5">
-      <video 
+    <div
+      ref={containerRef}
+      className="w-full h-full relative bg-black/20"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Skeleton shimmer while loading */}
+      {!isPlaying && (
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-black/30 via-white/5 to-black/30" />
+      )}
+      <video
         ref={videoRef}
-        src={src}
+        src={srcReady ? src : undefined}
         loop
         muted
         playsInline
-        preload="metadata"
+        preload={srcReady ? 'auto' : 'none'}
         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
       />
     </div>
@@ -318,62 +362,78 @@ const VideoPreview = memo(({ src }: { src: string }) => {
 
 VideoPreview.displayName = 'VideoPreview';
 
+const CardOverlay = ({ project }: { project: Project }) => (
+  <>
+    <div className="absolute bottom-4 left-4 z-10 flex flex-col items-start gap-2 pointer-events-none transition-transform duration-300 group-hover:scale-105 origin-bottom-left will-change-transform">
+      <h3 className="text-xl font-black text-[#FF0000] uppercase italic leading-none tracking-tighter">
+        {project.brandName}
+      </h3>
+      <span className="text-[9px] font-mono text-white bold border-1 border-white/60 uppercase tracking-[0.2em] px-2 py-0.5 rounded-full">
+        {project.category}
+      </span>
+    </div>
+    <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent ${project.category === 'Edición Audiovisual' ? 'opacity-0 group-hover:opacity-40' : 'opacity-80 group-hover:opacity-60'} transition-opacity duration-500`} />
+  </>
+);
+
+const CARD_CLASS = "relative group overflow-hidden cursor-pointer rounded-xl isolate aspect-[4/3] will-change-transform border border-black/5";
+
 const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project: Project; onClick: () => void; index: number; isCarouselItem?: boolean }) => {
   const handleMouseEnter = useCallback(() => {
-    // Prefetch con prioridad alta al hover porque es muy probable que haga click
     prefetchImages([...project.gallery, project.banner, ...project.mockup], true);
   }, [project]);
 
   const fetchPriority = index < 4 ? "high" : "auto";
   const loading = index < 4 ? "eager" : "lazy";
+  const isVideo = project.img.match(/\.(mp4|webm|mov)$/i);
+
+  // Carousel items use plain div — no Framer Motion overhead on 44+ simultaneous instances
+  if (isCarouselItem) {
+    return (
+      <div onClick={onClick} onMouseEnter={handleMouseEnter} className={CARD_CLASS}>
+        {isVideo ? (
+          <VideoPreview src={project.img} isCarouselItem={true} />
+        ) : (
+          <img
+            src={project.img}
+            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105 will-change-transform"
+            style={{ imageRendering: 'auto' }}
+            alt={project.brandName}
+            loading={loading}
+            fetchPriority={fetchPriority}
+            decoding="async"
+          />
+        )}
+        <CardOverlay project={project} />
+      </div>
+    );
+  }
 
   return (
-    <motion.div 
-      layoutId={isCarouselItem ? undefined : `card-${project.id}`}
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
+    <motion.div
+      layoutId={`card-${project.id}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
-      className="relative group overflow-hidden cursor-pointer rounded-xl isolate aspect-[4/3] will-change-transform border border-black/5"
+      className={CARD_CLASS}
     >
-      {project.img.match(/\.(mp4|webm|mov)$/i) ? (
-        <VideoPreview src={project.img} />
+      {isVideo ? (
+        <VideoPreview src={project.img} isCarouselItem={false} />
       ) : (
-        <motion.img 
-          layoutId={isCarouselItem ? undefined : `img-${project.id}`}
-          src={project.img} 
-          className="
-            w-full h-full object-cover 
-            /* Efecto Blanco y Negro a Color */
-            grayscale group-hover:grayscale-0 
-            /* Transiciones combinadas */
-            transition-all duration-700 ease-in-out 
-            group-hover:scale-105 
-            will-change-transform
-          " 
-          style={{ imageRendering: 'auto' }} 
-          alt={project.brandName} 
+        <motion.img
+          layoutId={`img-${project.id}`}
+          src={project.img}
+          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105 will-change-transform"
+          style={{ imageRendering: 'auto' }}
+          alt={project.brandName}
           loading={loading}
           fetchPriority={fetchPriority}
           decoding="async"
         />
       )}
-      
-      {/* Overlay y Textos */}
-      <div className="absolute bottom-4 left-4 z-10 flex flex-col items-start gap-2 pointer-events-none transition-transform duration-300 group-hover:scale-105 origin-bottom-left will-change-transform">
-        
-          <h3 className="text-xl font-black text-[#FF0000] uppercase italic leading-none tracking-tighter">
-            {project.brandName}
-          </h3>
-        
-        <span className="text-[9px] font-mono text-white bold border-1 border-white/60 uppercase tracking-[0.2em] px-2 py-0.5 rounded-full">
-          {project.category}
-        </span>
-      </div>
-      
-      {/* Gradiente de fondo para legibilidad: También oculto o más suave para Audiovisual */}
-      <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent ${project.category === 'Edición Audiovisual' ? 'opacity-0 group-hover:opacity-40' : 'opacity-80 group-hover:opacity-60'} transition-opacity duration-500`} />
+      <CardOverlay project={project} />
     </motion.div>
   );
 }, (prev, next) => prev.project.id === next.project.id);
@@ -384,8 +444,7 @@ const ProjectCarousel = memo(({ projects, onProjectSelect }: { projects: Project
   // Duplicamos los items para que el loop sea infinito y fluido
   const displayProjects = useMemo(() => {
     if (projects.length === 0) return [];
-    // Repetimos lo suficiente para asegurar un scroll continuo sin saltos
-    return [...projects, ...projects, ...projects];
+    return [...projects, ...projects];
   }, [projects]);
 
   if (projects.length === 0) return null;
@@ -415,19 +474,6 @@ const ProjectCarousel = memo(({ projects, onProjectSelect }: { projects: Project
         ))}
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-33.333333%); }
-        }
-        .animate-marquee {
-          animation: marquee var(--marquee-duration, 30s) linear infinite;
-          animation-play-state: running;
-        }
-        .pause-on-hover:hover .animate-marquee {
-          animation-play-state: paused;
-        }
-      `}} />
     </div>
   );
 });
@@ -620,12 +666,12 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
                     className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"
                   >
                     {filteredProjects.map((project, index) => (
-                      <ProjectCard 
+                      <ProjectCard
                         key={project.id}
-                        project={project} 
+                        project={project}
                         index={index}
-                        isCarouselItem={true}
-                        onClick={() => handleProjectSelect(project)} 
+                        isCarouselItem={false}
+                        onClick={() => handleProjectSelect(project)}
                       />
                     ))}
                   </motion.div>

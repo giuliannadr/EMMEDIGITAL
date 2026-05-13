@@ -281,22 +281,61 @@ if (typeof window !== 'undefined') {
   allImgs.forEach(src => { const img = new Image(); img.src = src; });
 }
 
+// Mobile browsers cap concurrent media loads and recycle video memory —
+// detect once at module load so we can apply a different strategy.
+const IS_MOBILE = typeof window !== 'undefined' &&
+  window.matchMedia('(max-width: 767px)').matches;
+
 const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  // Desktop: load src immediately. Mobile: lazy-load only when near viewport.
+  const [srcActive, setSrcActive] = React.useState(!IS_MOBILE);
+  const visibleRef = React.useRef(false);
 
+  // Mobile: browser may recycle video memory → re-load and re-play
   useEffect(() => {
+    if (!IS_MOBILE) return;
+    const video = videoRef.current;
+    if (!video) return;
+    const recover = () => {
+      if (visibleRef.current) { video.load(); video.play().catch(() => {}); }
+    };
+    video.addEventListener('emptied', recover);
+    video.addEventListener('stalled', recover);
+    return () => {
+      video.removeEventListener('emptied', recover);
+      video.removeEventListener('stalled', recover);
+    };
+  }, []);
+
+  // After src is activated, load + play if already visible
+  useEffect(() => {
+    if (!srcActive || !visibleRef.current) return;
+    const video = videoRef.current;
+    if (!video) return;
+    video.load();
+    const play = () => video.play().catch(() => {});
+    if (video.readyState >= 1) play();
+    else video.addEventListener('canplay', play, { once: true });
+  }, [srcActive]);
+
+  // Intersection: play/pause — also triggers src load on mobile
+  useEffect(() => {
+    const rootMargin = IS_MOBILE ? '200px' : '0px';
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
+          visibleRef.current = entry.isIntersecting;
           if (entry.isIntersecting) {
+            setSrcActive(true);
             videoRef.current?.play().catch(() => {});
           } else {
             videoRef.current?.pause();
           }
         });
       },
-      { threshold: 0, rootMargin: '0px' }
+      { threshold: 0, rootMargin }
     );
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -304,15 +343,13 @@ const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) =
 
   return (
     <div ref={containerRef} className="w-full h-full bg-black">
-      {/* preload="auto" + movflags faststart: el navegador bufferiza desde el inicio
-          y puede mostrar el primer frame y reproducir sin esperar canplay */}
       <video
         ref={videoRef}
-        src={src}
+        src={srcActive ? src : undefined}
         loop
         muted
         playsInline
-        preload="auto"
+        preload={srcActive ? (IS_MOBILE ? 'metadata' : 'auto') : 'none'}
         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
       />
     </div>

@@ -387,8 +387,8 @@ const ProjectCard = memo(({ project, onClick, index, isCarouselItem }: { project
           className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105 will-change-transform"
           style={{ imageRendering: 'auto' }}
           alt={project.brandName}
-          loading={loading}
-          fetchPriority={fetchPriority}
+          loading="eager"
+          fetchPriority="high"
           decoding="async"
         />
       )}
@@ -596,7 +596,7 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
               <span className="font-accent font-normal lowercase text-[#FF0000] tracking-normal text-[1.1em] inline-block italic leading-none">RESULTADOS REALES.</span>
             </h2>
           </div>
-          <nav className="flex flex-row md:flex-col flex-wrap md:flex-nowrap border-b-2 md:border-b-0 md:border-l-2 border-[#FF0000] pb-4 md:pb-0 md:pl-6 py-2 gap-x-6 gap-y-4 md:gap-y-5 w-full md:w-auto">
+          <nav className="flex flex-col border-l-2 border-[#FF0000] pl-4 md:pl-6 gap-4 md:gap-5 w-full md:w-auto">
             {categories.map((cat, index) => (
               <button key={cat} onClick={() => { setActiveTab(cat); setIsExpandedAV(false); }} className="group text-left flex items-center gap-2 md:gap-3 outline-none">
                 <span className={`text-[9px] font-mono ${activeTab === cat ? 'text-[#FF0000]' : 'text-black/20'}`}>0{index}</span>

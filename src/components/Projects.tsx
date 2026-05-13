@@ -505,25 +505,18 @@ const Projects = () => {
       return allProjects.filter(p => p.category === activeTab);
     }
     
-    // Mezclar los proyectos de edición audiovisual con los demás para el filtro "Todo"
-    const normalProjects = allProjects.filter(p => p.category !== 'Edición Audiovisual');
-    const avProjects = allProjects.filter(p => p.category === 'Edición Audiovisual');
-    
-    const mixed = [];
-    let avIndex = 0;
-    
-    for (let i = 0; i < normalProjects.length; i++) {
-      mixed.push(normalProjects[i]);
-      // Intercalar 2 o 3 videos por cada proyecto normal para distribuir los 26 videos
-      if (avIndex < avProjects.length) mixed.push(avProjects[avIndex++]);
-      if (avIndex < avProjects.length) mixed.push(avProjects[avIndex++]);
+    // Round-robin entre las 3 categorías para que se mezclen todas uniformemente
+    const rs = allProjects.filter(p => p.category === 'Redes Sociales');
+    const pf = allProjects.filter(p => p.category === 'Producción Fotográfica');
+    const av = allProjects.filter(p => p.category === 'Edición Audiovisual');
+
+    const mixed: Project[] = [];
+    let ri = 0, pi = 0, ai = 0;
+    while (ri < rs.length || pi < pf.length || ai < av.length) {
+      if (ri < rs.length) mixed.push(rs[ri++]);
+      if (pi < pf.length) mixed.push(pf[pi++]);
+      if (ai < av.length) mixed.push(av[ai++]);
     }
-    
-    // Agregar el resto de los videos al final si quedaron
-    while (avIndex < avProjects.length) {
-      mixed.push(avProjects[avIndex++]);
-    }
-    
     return mixed;
   }, [activeTab]);
 

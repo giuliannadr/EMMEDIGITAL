@@ -280,11 +280,13 @@ const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselIte
   const [isPlaying, setIsPlaying] = React.useState(false);
   const wantsToPlayRef = React.useRef(false);
 
-  // After src is committed to DOM, try to play if wanted
+  // After src is committed to DOM: trigger load + play when ready
   useEffect(() => {
     if (!srcReady) return;
     const video = videoRef.current;
-    if (!video || !wantsToPlayRef.current) return;
+    if (!video) return;
+    video.load(); // Tell the browser to start buffering immediately
+    if (!wantsToPlayRef.current) return;
     const play = () => {
       if (wantsToPlayRef.current) {
         video.play().catch(() => {});
@@ -299,15 +301,30 @@ const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselIte
     }
   }, [srcReady]);
 
-  // Autoplay when in viewport — both carousel and grid items
+  // Preload zone observer: start loading before the card is visible
   useEffect(() => {
-    const rootMargin = isCarouselItem ? '0px' : '100px';
-    const observer = new IntersectionObserver(
+    // For carousel: extend 40% of viewport width on each side so videos
+    // start buffering before they scroll into view
+    const rootMargin = isCarouselItem ? '0px 40% 0px 40%' : '150px';
+    const preloadObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setSrcReady(true);
+        });
+      },
+      { threshold: 0, rootMargin }
+    );
+    if (containerRef.current) preloadObserver.observe(containerRef.current);
+    return () => preloadObserver.disconnect();
+  }, [isCarouselItem]);
+
+  // Playback observer: play/pause based on actual visibility
+  useEffect(() => {
+    const playObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           wantsToPlayRef.current = entry.isIntersecting;
           if (entry.isIntersecting) {
-            setSrcReady(true);
             if (videoRef.current?.src) videoRef.current.play().catch(() => {});
           } else {
             videoRef.current?.pause();
@@ -315,11 +332,11 @@ const VideoPreview = memo(({ src, isCarouselItem }: { src: string; isCarouselIte
           }
         });
       },
-      { threshold: 0, rootMargin }
+      { threshold: 0, rootMargin: '0px' }
     );
-    if (containerRef.current) observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, [isCarouselItem]);
+    if (containerRef.current) playObserver.observe(containerRef.current);
+    return () => playObserver.disconnect();
+  }, []);
 
   return (
     <div ref={containerRef} className="w-full h-full relative bg-black/20">

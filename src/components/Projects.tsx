@@ -289,54 +289,35 @@ const IS_MOBILE = typeof window !== 'undefined' &&
 const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  // Desktop: src always active. Mobile: lazy – only active when near viewport.
-  const [srcActive, setSrcActive] = React.useState(!IS_MOBILE);
-  const [poster, setPoster] = React.useState<string | undefined>();
   const visibleRef = React.useRef(false);
-  // Mirror of srcActive as a ref so event handlers always see current value
-  const srcActiveRef = React.useRef(!IS_MOBILE);
-  const posterCaptured = React.useRef(false);
 
-  const activateSrc = React.useCallback(() => {
-    srcActiveRef.current = true;
-    setSrcActive(true);
-  }, []);
-
-  const deactivateSrc = React.useCallback(() => {
-    srcActiveRef.current = false;
-    setSrcActive(false);
-  }, []);
-
-  // Capture first frame as poster so there's always a thumbnail while (re)loading
+  // Play when entering viewport, pause when leaving
   useEffect(() => {
-    if (posterCaptured.current) return;
-    const video = videoRef.current;
-    if (!video) return;
-    const capture = () => {
-      if (posterCaptured.current || !video.videoWidth) return;
-      try {
-        const c = document.createElement('canvas');
-        c.width = Math.min(video.videoWidth, 640);
-        c.height = Math.min(video.videoHeight, 360);
-        c.getContext('2d')?.drawImage(video, 0, 0, c.width, c.height);
-        const url = c.toDataURL('image/jpeg', 0.6);
-        posterCaptured.current = true;
-        setPoster(url);
-      } catch {}
-    };
-    video.addEventListener('loadeddata', capture, { once: true });
-    return () => video.removeEventListener('loadeddata', capture);
-  // Re-register when srcActive flips so we catch the next loadeddata event
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [srcActive]);
+    const container = containerRef.current;
+    if (!container) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        visibleRef.current = entry.isIntersecting;
+        const video = videoRef.current;
+        if (!video) return;
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0 });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
-  // Mobile: browser recycles video memory → recover only if src is still active
+  // Mobile: recover when browser recycles video memory
   useEffect(() => {
     if (!IS_MOBILE) return;
     const video = videoRef.current;
     if (!video) return;
     const recover = () => {
-      if (visibleRef.current && srcActiveRef.current) {
+      if (visibleRef.current) {
         video.load();
         video.play().catch(() => {});
       }
@@ -349,48 +330,15 @@ const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) =
     };
   }, []);
 
-  // Attempt play whenever src becomes active
-  useEffect(() => {
-    if (!srcActive) return;
-    const video = videoRef.current;
-    if (!video) return;
-    const tryPlay = () => video.play().catch(() => {});
-    if (video.readyState >= 2) tryPlay();
-    else video.addEventListener('canplay', tryPlay, { once: true });
-    return () => video.removeEventListener('canplay', tryPlay);
-  }, [srcActive]);
-
-  // Intersection observer: play/pause + mobile src lifecycle
-  // rootMargin is generous horizontally so carousel cards preload before entering view
-  useEffect(() => {
-    const rootMargin = IS_MOBILE ? '200px 500px 200px 500px' : '0px 200px 0px 200px';
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        visibleRef.current = entry.isIntersecting;
-        if (entry.isIntersecting) {
-          activateSrc();
-          videoRef.current?.play().catch(() => {});
-        } else {
-          videoRef.current?.pause();
-          // Free memory on mobile when card is far from viewport
-          if (IS_MOBILE) deactivateSrc();
-        }
-      });
-    }, { threshold: 0, rootMargin });
-    if (containerRef.current) observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, [activateSrc, deactivateSrc]);
-
   return (
     <div ref={containerRef} className="w-full h-full bg-black">
       <video
         ref={videoRef}
-        src={srcActive ? src : undefined}
+        src={src}
         loop
         muted
         playsInline
-        poster={poster}
-        preload={srcActive ? 'auto' : 'none'}
+        preload={IS_MOBILE ? 'metadata' : 'auto'}
         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
       />
     </div>

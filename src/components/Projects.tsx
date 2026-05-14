@@ -436,31 +436,61 @@ const ProjectCarousel = memo(({ projects, onProjectSelect }: { projects: Project
 
   if (projects.length === 0) return null;
 
-  const scrollDuration = projects.length * 5; // Segundos por ciclo completo de la lista original
+  const scrollDuration = projects.length * 5;
+
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const touchStartX = React.useRef(0);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    if (trackRef.current) trackRef.current.style.animationPlayState = 'paused';
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    const delta = e.touches[0].clientX - touchStartX.current;
+    if (wrapperRef.current) {
+      wrapperRef.current.style.transition = 'none';
+      wrapperRef.current.style.transform = `translateX(${delta}px)`;
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (wrapperRef.current) {
+      wrapperRef.current.style.transition = 'transform 0.4s ease-out';
+      wrapperRef.current.style.transform = 'translateX(0)';
+    }
+    if (trackRef.current) trackRef.current.style.animationPlayState = 'running';
+  }, []);
 
   return (
-    <div className="pause-on-hover relative overflow-hidden w-full py-4">
-      <div 
-        className="flex gap-4 w-max animate-marquee"
-        style={{ 
-          animationDuration: `${scrollDuration}s`,
-        }}
-      >
-        {displayProjects.map((project, index) => (
-          <div 
-            key={`${project.id}-${index}`} 
-            className="w-[75vw] sm:w-[40vw] lg:w-[calc(25vw-2rem)] flex-shrink-0"
-          >
-            <ProjectCard 
-              project={project} 
-              index={index}
-              isCarouselItem={true}
-              onClick={() => onProjectSelect(project)} 
-            />
-          </div>
-        ))}
+    <div
+      className={`${IS_MOBILE ? '' : 'pause-on-hover'} relative overflow-hidden w-full py-4`}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div ref={wrapperRef}>
+        <div
+          ref={trackRef}
+          className="flex gap-4 w-max animate-marquee"
+          style={{ animationDuration: `${scrollDuration}s` }}
+        >
+          {displayProjects.map((project, index) => (
+            <div
+              key={`${project.id}-${index}`}
+              className="w-[75vw] sm:w-[40vw] lg:w-[calc(25vw-2rem)] flex-shrink-0"
+            >
+              <ProjectCard
+                project={project}
+                index={index}
+                isCarouselItem={true}
+                onClick={() => onProjectSelect(project)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-
     </div>
   );
 });

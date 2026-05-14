@@ -63,6 +63,7 @@ const App = () => {
   <meta name="keywords" content="marketing digital Argentina, agencia de marketing, redes sociales, community manager, producción fotográfica, edición audiovisual, diseño web, Emme Digital" />
   <meta name="author" content="EMME DIGITAL" />
   <meta name="robots" content="index, follow" />
+  <meta name="google-site-verification" content="1CQZuZUAsgM-B6C3z_ITwYDNFA2GtaN09KlvzPx3Sto" />
   <link rel="canonical" href="https://emmedigital.com.ar" />
 
   {/* Open Graph */}

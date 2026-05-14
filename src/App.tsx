@@ -63,16 +63,16 @@ const App = () => {
   <meta name="keywords" content="marketing digital Argentina, agencia de marketing, redes sociales, community manager, producción fotográfica, edición audiovisual, diseño web, Emme Digital" />
   <meta name="author" content="EMME DIGITAL" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://emmedigital.ar" />
+  <link rel="canonical" href="https://emmedigital.com.ar" />
 
   {/* Open Graph */}
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://emmedigital.ar" />
+  <meta property="og:url" content="https://emmedigital.com.ar" />
   <meta property="og:site_name" content="EMME DIGITAL" />
   <meta property="og:locale" content="es_AR" />
   <meta property="og:title" content="EMME DIGITAL | Agencia de Marketing Digital en Argentina" />
   <meta property="og:description" content="Agencia de Marketing Digital en Argentina. Redes sociales, producción de contenido, edición audiovisual y desarrollo web para marcas que quieren resultados reales." />
-  <meta property="og:image" content="https://emmedigital.ar/og-image.jpg" />
+  <meta property="og:image" content="https://emmedigital.com.ar/og-image.jpg" />
   <meta property="og:image:width" content="1080" />
   <meta property="og:image:height" content="1080" />
   <meta property="og:image:alt" content="EMME DIGITAL — Agencia de Marketing Digital" />
@@ -81,15 +81,15 @@ const App = () => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="EMME DIGITAL | Agencia de Marketing Digital en Argentina" />
   <meta name="twitter:description" content="Redes sociales, contenido visual y desarrollo web para marcas que quieren crecer." />
-  <meta name="twitter:image" content="https://emmedigital.ar/og-image.jpg" />
+  <meta name="twitter:image" content="https://emmedigital.com.ar/og-image.jpg" />
 
   {/* JSON-LD — Structured Data */}
   <script type="application/ld+json">{JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "EMME DIGITAL",
-    "url": "https://emmedigital.ar",
-    "logo": "https://emmedigital.ar/og-image.jpg",
+    "url": "https://emmedigital.com.ar",
+    "logo": "https://emmedigital.com.ar/og-image.jpg",
     "description": "Agencia de Marketing Digital en Argentina especializada en redes sociales, producción de contenido fotográfico y audiovisual, y desarrollo web.",
     "areaServed": "AR",
     "serviceType": [

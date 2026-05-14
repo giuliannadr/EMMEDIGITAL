@@ -621,12 +621,12 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
             <AnimatePresence mode="wait">
               {filteredProjects.length > 0 ? (
                 activeTab === 'Edición Audiovisual' && isExpandedAV ? (
-                  <motion.div 
+                  <motion.div
                     key="grid-view"
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -30 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                     className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"
                   >
                     {filteredProjects.map((project, index) => (
@@ -642,10 +642,10 @@ const toggleMute = (index: number, e: React.MouseEvent) => {
                 ) : (
                   <motion.div
                     key={`${activeTab}-carousel`}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -30 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                     className="w-full"
                   >
                     <ProjectCarousel 

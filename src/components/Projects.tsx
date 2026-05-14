@@ -291,6 +291,9 @@ const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) =
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const visibleRef = React.useRef(false);
 
+  // Derive static poster from video path (e.g. /VIDEOS/1.mp4 → /VIDEOS/1-poster.jpg)
+  const posterSrc = src.replace(/\.mp4$/i, '-poster.jpg');
+
   // Play when entering viewport, pause when leaving
   useEffect(() => {
     const container = containerRef.current;
@@ -311,7 +314,7 @@ const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) =
     return () => observer.disconnect();
   }, []);
 
-  // Mobile: recover when browser recycles video memory
+  // Mobile: recover when browser recycles video memory → poster stays visible meanwhile
   useEffect(() => {
     if (!IS_MOBILE) return;
     const video = videoRef.current;
@@ -338,7 +341,8 @@ const VideoPreview = memo(({ src }: { src: string; isCarouselItem?: boolean }) =
         loop
         muted
         playsInline
-        preload={IS_MOBILE ? 'metadata' : 'auto'}
+        poster={posterSrc}
+        preload={IS_MOBILE ? 'none' : 'auto'}
         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out group-hover:scale-105"
       />
     </div>

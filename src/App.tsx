@@ -56,24 +56,51 @@ const App = () => {
     <HelmetProvider>
       <div className="bg-[#050505] text-[#FAFAFA] min-h-screen font-sans selection:bg-[#FF0000] selection:text-white">
         
-        {/* SEO Technical Setup */}
+        {/* SEO */}
 <Helmet>
-  {/* El título pone el Marketing Digital primero, que es el motor de ella */}
-  <title>EMME DIGITAL | Marketing Digital, Contenido Visual & Web Dev</title>
-  
-  {/* Una descripción clara y profesional, sin rodeos */}
-  <meta name="description" content="Estrategias de Marketing Digital, gestión de Social Media, producción de fotos y videos profesionales y desarrollo web de alto impacto." />
-  
-  {/* Keywords enfocadas en lo que realmente hacen */}
-  <meta name="keywords" content="Marketing Digital, Social Media, Producción de fotos, Producción de videos, Diseño Web, React, Emme Digital" />
-
-  {/* Open Graph para que al compartir el link se entienda rápido qué hacen */}
-  <meta property="og:title" content="EMME DIGITAL | Marketing Digital & Estrategia" />
-  <meta property="og:description" content="Potenciamos marcas a través de contenido visual, redes sociales y desarrollo web profesional." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="/og-image.jpg" /> 
-  
+  <title>EMME DIGITAL | Agencia de Marketing Digital en Argentina</title>
+  <meta name="description" content="Agencia de Marketing Digital en Argentina. Gestionamos redes sociales, producimos contenido fotográfico y audiovisual, y desarrollamos sitios web de alto impacto para marcas que quieren crecer." />
+  <meta name="keywords" content="marketing digital Argentina, agencia de marketing, redes sociales, community manager, producción fotográfica, edición audiovisual, diseño web, Emme Digital" />
+  <meta name="author" content="EMME DIGITAL" />
+  <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://emmedigital.ar" />
+
+  {/* Open Graph */}
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://emmedigital.ar" />
+  <meta property="og:site_name" content="EMME DIGITAL" />
+  <meta property="og:locale" content="es_AR" />
+  <meta property="og:title" content="EMME DIGITAL | Agencia de Marketing Digital en Argentina" />
+  <meta property="og:description" content="Agencia de Marketing Digital en Argentina. Redes sociales, producción de contenido, edición audiovisual y desarrollo web para marcas que quieren resultados reales." />
+  <meta property="og:image" content="https://emmedigital.ar/og-image.jpg" />
+  <meta property="og:image:width" content="1080" />
+  <meta property="og:image:height" content="1080" />
+  <meta property="og:image:alt" content="EMME DIGITAL — Agencia de Marketing Digital" />
+
+  {/* Twitter / X Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EMME DIGITAL | Agencia de Marketing Digital en Argentina" />
+  <meta name="twitter:description" content="Redes sociales, contenido visual y desarrollo web para marcas que quieren crecer." />
+  <meta name="twitter:image" content="https://emmedigital.ar/og-image.jpg" />
+
+  {/* JSON-LD — Structured Data */}
+  <script type="application/ld+json">{JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "EMME DIGITAL",
+    "url": "https://emmedigital.ar",
+    "logo": "https://emmedigital.ar/og-image.jpg",
+    "description": "Agencia de Marketing Digital en Argentina especializada en redes sociales, producción de contenido fotográfico y audiovisual, y desarrollo web.",
+    "areaServed": "AR",
+    "serviceType": [
+      "Marketing Digital",
+      "Gestión de Redes Sociales",
+      "Producción Fotográfica",
+      "Edición Audiovisual",
+      "Desarrollo Web"
+    ],
+    "sameAs": []
+  })}</script>
 </Helmet>
 
         <CustomCursor />

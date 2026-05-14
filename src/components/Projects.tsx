@@ -436,60 +436,97 @@ const ProjectCarousel = memo(({ projects, onProjectSelect }: { projects: Project
 
   if (projects.length === 0) return null;
 
-  const scrollDuration = projects.length * 5;
-
-  const wrapperRef = React.useRef<HTMLDivElement>(null);
   const trackRef = React.useRef<HTMLDivElement>(null);
-  const touchStartX = React.useRef(0);
+  const posRef = React.useRef(0);          // current X position in px
+  const isDragging = React.useRef(false);
+  const isHovered = React.useRef(false);
+  const lastTouchX = React.useRef(0);
+
+  // JS-driven RAF loop: gives full control over position so swipe integrates seamlessly
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let rafId: number;
+    let lastTime: number | null = null;
+
+    const tick = (time: number) => {
+      if (!isDragging.current && !isHovered.current) {
+        if (lastTime !== null) {
+          const halfW = track.scrollWidth / 2;
+          // Speed derived from original CSS formula: projects.length * 5s per full loop
+          const speed = halfW / (projects.length * 5 * 1000); // px/ms
+          posRef.current -= speed * (time - lastTime);
+          if (posRef.current <= -halfW) posRef.current += halfW;
+        }
+        lastTime = time;
+      } else {
+        lastTime = null;
+      }
+      track.style.transform = `translateX(${posRef.current}px)`;
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [projects.length]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-    if (trackRef.current) trackRef.current.style.animationPlayState = 'paused';
+    isDragging.current = true;
+    lastTouchX.current = e.touches[0].clientX;
   }, []);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    const delta = e.touches[0].clientX - touchStartX.current;
-    if (wrapperRef.current) {
-      wrapperRef.current.style.transition = 'none';
-      wrapperRef.current.style.transform = `translateX(${delta}px)`;
-    }
+    const x = e.touches[0].clientX;
+    const delta = x - lastTouchX.current;
+    lastTouchX.current = x;
+    const track = trackRef.current;
+    if (!track) return;
+    posRef.current += delta;
+    const halfW = track.scrollWidth / 2;
+    // Keep within the looping range
+    if (posRef.current > 0) posRef.current -= halfW;
+    if (posRef.current <= -halfW) posRef.current += halfW;
+    track.style.transform = `translateX(${posRef.current}px)`;
   }, []);
 
   const handleTouchEnd = useCallback(() => {
-    if (wrapperRef.current) {
-      wrapperRef.current.style.transition = 'transform 0.4s ease-out';
-      wrapperRef.current.style.transform = 'translateX(0)';
-    }
-    if (trackRef.current) trackRef.current.style.animationPlayState = 'running';
+    isDragging.current = false;
+    // RAF loop resumes from posRef.current — no bounce
   }, []);
+
+  // Desktop: pause on hover
+  const handleMouseEnter = useCallback(() => { if (!IS_MOBILE) isHovered.current = true; }, []);
+  const handleMouseLeave = useCallback(() => { if (!IS_MOBILE) isHovered.current = false; }, []);
 
   return (
     <div
-      className={`${IS_MOBILE ? '' : 'pause-on-hover'} relative overflow-hidden w-full py-4`}
+      className="relative overflow-hidden w-full py-4"
+      style={{ touchAction: 'pan-y' }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <div ref={wrapperRef}>
-        <div
-          ref={trackRef}
-          className="flex gap-4 w-max animate-marquee"
-          style={{ animationDuration: `${scrollDuration}s` }}
-        >
-          {displayProjects.map((project, index) => (
-            <div
-              key={`${project.id}-${index}`}
-              className="w-[75vw] sm:w-[40vw] lg:w-[calc(25vw-2rem)] flex-shrink-0"
-            >
-              <ProjectCard
-                project={project}
-                index={index}
-                isCarouselItem={true}
-                onClick={() => onProjectSelect(project)}
-              />
-            </div>
-          ))}
-        </div>
+      <div
+        ref={trackRef}
+        className="flex gap-4 w-max"
+        style={{ willChange: 'transform' }}
+      >
+        {displayProjects.map((project, index) => (
+          <div
+            key={`${project.id}-${index}`}
+            className="w-[75vw] sm:w-[40vw] lg:w-[calc(25vw-2rem)] flex-shrink-0"
+          >
+            <ProjectCard
+              project={project}
+              index={index}
+              isCarouselItem={true}
+              onClick={() => onProjectSelect(project)}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
